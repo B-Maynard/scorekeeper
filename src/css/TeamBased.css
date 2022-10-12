@@ -1,0 +1,128 @@
+/*  Multi team styles */
+
+#team1-score {
+    background-color: rgba(208, 99, 255, 0.5);
+}
+
+.card {
+    margin-top: 5%;
+    margin-bottom: -5%;
+}
+
+.team-score-body {
+    padding: 15%;
+}
+
+.button-options:hover {
+    cursor: pointer;
+}
+
+i {
+    color: black;
+    text-decoration: none;
+}
+
+i:hover {
+    cursor: pointer;
+}
+
+#addTeam {
+    font-size: 2em;
+    margin-right: 1em;
+}
+
+#cardsContainer {
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+/* 2 Team Styles */
+
+#team1 {
+    background-color: #6f83f2;
+    position: absolute;
+    z-index: 0;
+    text-decoration: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+#team2 {
+    background-color: #f2786f;
+    position: absolute;
+    z-index: 0;
+    text-decoration: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+@media screen and (max-width: 992px) {
+    #team1 {
+        height: 50%;
+        width: 100%;
+    }
+
+    #team2 {
+        top: 50%;
+        height: 50%;
+        width: 100%;
+    }
+
+    .edit-arrow {
+        font-size: 3em;
+    }
+
+    .points {
+        font-size: 4em;
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 2200px) {
+    #team1{
+        height: 100%;
+        width: 50%;
+    }
+
+    #team2 {
+        height: 100%;
+        width: 50%;
+        left: 50%;
+    }
+
+    .edit-arrow {
+        font-size: 3em !important;
+    }
+
+    .points {
+        font-size: 4em;
+    }
+}
+
+@media screen and (min-width: 2200px) {
+    #team1 {
+        height: 100%;
+        width: 50%;
+    }
+
+    #team2 {
+        height: 100%;
+        width: 50%;
+        left: 50%;
+    }
+
+    .edit-arrow {
+        font-size: 5em;
+    }
+
+    .points {
+        font-size: 7em;
+    }
+}
+
+#multiModeButton {
+    z-index: 10;
+}
