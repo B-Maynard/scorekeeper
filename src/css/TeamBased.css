@@ -1,9 +1,5 @@
 /*  Multi team styles */
 
-#team1-score {
-    background-color: rgba(208, 99, 255, 0.5);
-}
-
 .card {
     margin-top: 5%;
     margin-bottom: -5%;
@@ -60,7 +56,22 @@ i:hover {
     -ms-user-select: none;
 }
 
-@media screen and (max-width: 992px) {
+/* In landscape, we can have it be side by side */
+@media screen and (orientation: landscape) {
+    #team1 {
+        height: 100%;
+        width: 50%;
+    }
+
+    #team2 {
+        height: 100%;
+        width: 50%;
+        left: 50%;
+    }
+}
+
+/* Make it so in portrait, the boxes are stacked */
+@media screen and (max-width: 992px) and (orientation: portrait) {
     #team1 {
         height: 50%;
         width: 100%;
@@ -81,7 +92,7 @@ i:hover {
     }
 }
 
-@media screen and (min-width: 992px) and (max-width: 2200px) {
+@media screen and (min-width: 992px) and (max-width: 2200px) and (orientation: portrait) {
     #team1{
         height: 100%;
         width: 50%;
@@ -92,15 +103,20 @@ i:hover {
         width: 50%;
         left: 50%;
     }
+}
 
+/*  Fonts should always be the same */
+@media screen and (max-width: 2200px) {
     .edit-arrow {
         font-size: 3em !important;
     }
-
+    
     .points {
         font-size: 4em;
     }
 }
+
+
 
 @media screen and (min-width: 2200px) {
     #team1 {
