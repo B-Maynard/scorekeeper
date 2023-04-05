@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
-export default function PointBasedModal(props) {
+export default function EditScoreModal(props) {
 
     // Modal for adding new teams in multi team mode
     // Passing functions from the multi team page here so that data can then be passed back (team name)
@@ -11,28 +11,23 @@ export default function PointBasedModal(props) {
         <div>
                 <Modal show={props.show} onHide={props.toggle}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Enter starting score for all players:</Modal.Title>
+                        <Modal.Title>Enter Score Change:</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
+                    User: {props.userName}
+                    <br></br>
                         <input 
-                        onChange={props.setStartingScore} 
-                        value={props.startingScore}/>
+                        onChange={props.setScoreChange} />
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={props.toggle}>
-                            Close
+                        <Button variant="secondary" onClick={props.addScore}>
+                            Add
                         </Button>
-                        <Button variant="primary" onClick={props.confirmScore}>
-                            Confirm
+                        <Button variant="secondary" onClick={props.subtractScore}>
+                            Subtract
                         </Button>
                     </Modal.Footer>
                 </Modal>
         </div>
     );
 }
-
-
-
-
-
-
