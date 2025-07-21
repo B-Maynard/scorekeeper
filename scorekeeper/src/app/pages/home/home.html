@@ -1,0 +1,23 @@
+<div class="home-wrapper">
+    <div class="header">
+        Score Keeper
+    </div>
+    <div class="content">
+        <p>Welcome to Score Keeper!</p>
+        <p>This application is designed to help you keep track of scores for various games and activities.</p>
+        <p>To get started, please select an option below.</p>
+        <div class="cards">
+            @for (card of cards; track card.title) {
+                <div class="card">
+                    <div class="card-title">{{card.title}}</div>
+                    <div class="card-description">
+                        {{card.description}}
+                    </div>
+                    <div class="card-button-wrapper">
+                        <p-button class="card-button" (onClick)="navigateTo(card.route)">Go</p-button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
