@@ -1,3 +1,24 @@
+@media screen and (max-width: 400px) {
+
+    .cards > .card {
+        margin: 5px;
+    }
+    
+}
+
+@media screen and (min-width: 401px) {
+
+    .cards {
+        display: flex;
+        gap: 5px;
+
+        .card {
+            max-width: 33%;
+        }
+    }
+    
+}
+
 .header {
     font-family: 'Bitcount', sans-serif;
     font-size: 3.5rem;
@@ -24,7 +45,6 @@
         padding: 10px;
         background: gray;
         border-radius: 10px;
-        max-width: 33%;
 
         .card-title {
             text-align: center;

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { CardsService } from '../../services/cards.service';
+import { OptionsService } from '../../services/options.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,20 +13,20 @@ import { Router } from '@angular/router';
 })
 export class Home implements OnInit {
 
-  public cards: any = [];
+  public options: any = [];
 
   constructor(
-     private cardsService: CardsService,
+     private optionsService: OptionsService,
      private router: Router
   ) {}
   
 
   ngOnInit(): void {
-    this.cards = this.cardsService.getCards();
+    this.options = this.optionsService.getOptions();
   }
 
   navigateTo(route: any) {
-
+    this.router.navigateByUrl(route);
   }
 
 
