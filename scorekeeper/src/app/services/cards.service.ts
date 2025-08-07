@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageConfig } from '../configs/localStorage.config';
+import { CardsGame, Player } from '../pages/cards/interfaces/cards.interface';
 
 @Injectable({
   providedIn: 'root'

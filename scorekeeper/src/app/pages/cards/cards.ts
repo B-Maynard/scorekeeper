@@ -3,14 +3,17 @@ import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { CardsService } from '../../services/cards.service';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
+import { InputTextModule } from 'primeng/inputtext';
+import { Player } from './interfaces/cards.interface';
 
 @Component({
   selector: 'app-cards',
   imports: [
     TableModule,
     ButtonModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    InputTextModule
   ],
   providers: [ConfirmationService],
   templateUrl: './cards.html',
@@ -18,7 +21,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 })
 export class Cards implements OnInit {
 
-  public playerData: any = [];
+  public playerData: Player[] = [];
 
   constructor(
     public cardsService: CardsService,
@@ -63,5 +66,9 @@ export class Cards implements OnInit {
             reject: () => {
             },
         });
+  }
+
+  onEditComplete() {
+    this.cardsService.saveGameData(this.playerData);
   }
 }
