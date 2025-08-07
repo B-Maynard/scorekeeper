@@ -1,0 +1,239 @@
+
+:root {
+  --bg: #0b1020;
+  --card: #141b34;
+  --text: #e6e9f5;
+  --muted: #9aa3b2;
+  --accent: #5b8cff;
+  --accent-2: #57d6a2;
+  --danger: #ff5b8c;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Noto Sans, 'Apple Color Emoji', 'Segoe UI Emoji';
+  background: radial-gradient(1200px 600px at 10% -10%, #1a2242 0, transparent 70%), var(--bg);
+  color: var(--text);
+}
+
+.app-shell {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05);
+  position: sticky;
+  top: 16px;
+  backdrop-filter: blur(6px);
+}
+
+.toolbar h1 {
+  font-size: 18px;
+  margin: 0;
+  letter-spacing: .3px;
+  color: #fff;
+}
+
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  margin: 0 10px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+}
+nav a.active, nav a:hover {
+  color: #fff;
+  border-color: rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.03);
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.btn {
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform .06s ease, background .2s ease, box-shadow .3s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn-cta { background: linear-gradient(135deg, var(--accent), var(--accent-2)); border: none; }
+.btn-danger { background: linear-gradient(135deg, #ff4466, #ff9966); border: none; }
+.btn-ghost { background: transparent; border-color: rgba(255,255,255,0.14); color: var(--text); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.input, .number-input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.04);
+  color: #fff;
+}
+
+.row { display: flex; align-items: center; gap: 10px; }
+.spread { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+
+.tag {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.09);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.advance-anim {
+  animation: pulse 700ms ease;
+}
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 rgba(87,214,162,0.0); }
+  40% { transform: scale(1.03); box-shadow: 0 0 30px rgba(87,214,162,0.25); }
+  100% { transform: scale(1); box-shadow: 0 0 0 rgba(87,214,162,0.0); }
+}
+
+hr { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 16px 0; }
+
+
+/* Cards: keep long custom amounts from overflowing */
+.btn.amount-btn { display: inline-block; }
+
+
+/* --- Arcade header style --- */
+.toolbar h1 {
+  font-family: "Press Start 2P", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  letter-spacing: 1px;
+  font-size: 20px;
+  color: #fff;
+  text-shadow: 0 2px 0 #000, 0 4px 0 rgba(0,0,0,0.4), 2px 2px 0 rgba(0,0,0,0.2);
+}
+
+/* --- Bigger default type and buttons --- */
+body { font-size: 16px; }
+h2 { font-size: 22px; }
+h3 { font-size: 18px; }
+
+.btn {
+  padding: 10px 14px;
+  font-size: 15px;
+  border-radius: 12px;
+}
+
+/* Ensure links styled as buttons never get underlined */
+a.btn { text-decoration: none !important; }
+
+/* Larger inputs */
+.input, .number-input, textarea.input {
+  font-size: 15px;
+  padding: 12px 14px;
+  border-radius: 12px;
+}
+
+/* Home cards: center the Open button */
+.card .card-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+/* Prominent score badge */
+.score-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 20px;
+  color: #0b1020;
+  background: linear-gradient(135deg, var(--accent-2), #7df0c2);
+  border: 1px solid rgba(0,0,0,0.25);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.3);
+}
+
+/* Layout helpers for score rows */
+.score-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+
+/* Bigger counters (players/teams), centered text, extra padding */
+.counter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  min-width: 120px;
+  text-align: center;
+}
+
+/* Flashier, centered score at top of each card */
+.score-top {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.score-badge {
+  min-width: 120px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-weight: 800;
+  font-size: 26px;
+  color: #051018;
+  background: radial-gradient(120px 60px at 50% -10%, rgba(255,255,255,0.6), rgba(255,255,255,0)) , linear-gradient(135deg, #7df0c2, #5b8cff);
+  border: 2px solid rgba(0,0,0,0.35);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+  box-shadow:
+    0 10px 24px rgba(0,0,0,0.35),
+    inset 0 2px 0 rgba(255,255,255,0.5),
+    0 0 24px rgba(123, 225, 200, 0.45);
+}
+
+/* Pulse animation when the score changes */
+.score-pulse {
+  animation: scorePulse 700ms ease;
+}
+@keyframes scorePulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 rgba(123,225,200,0); }
+  40% { transform: scale(1.06); box-shadow: 0 0 36px rgba(123,225,200,0.6); }
+  100% { transform: scale(1); box-shadow: 0 0 0 rgba(123,225,200,0); }
+}

@@ -1,0 +1,84 @@
+
+<div class="card" style="margin-top:20px">
+  <div class="row" style="align-items:center; gap:12px;">
+    <span class="counter">1 vs 1</span>
+    <div style="flex:1"></div>
+    <button class="btn btn-ghost" (click)="undo()">Undo</button>
+    <button class="btn btn-danger" (click)="reset()">Reset</button>
+  </div>
+</div>
+
+<div class="card settings-card">
+  <div class="row" style="gap:14px; flex-wrap:wrap;">
+    <div class="setting">
+      <label>Points to win</label>
+      <input type="number" class="number-input" [ngModel]="state.settings.pointsToWin" (ngModelChange)="setPointsToWin($event)">
+    </div>
+    <div class="setting">
+      <label>Best of</label>
+      <select class="input" [ngModel]="state.settings.bestOf" (ngModelChange)="setBestOf($event)">
+        <option [ngValue]="1">1</option>
+        <option [ngValue]="3">3</option>
+        <option [ngValue]="5">5</option>
+        <option [ngValue]="7">7</option>
+        <option [ngValue]="9">9</option>
+      </select>
+    </div>
+    <div class="setting">
+      <label>Win by 2</label>
+      <button class="btn" (click)="toggleWinByTwo()">
+        {{ state.settings.winByTwo ? 'On' : 'Off' }}
+      </button>
+    </div>
+    <div class="series-status">
+      <div class="dots">
+        <span class="dot" [class.on]="i < state.gamesWon[0]" *ngFor="let _ of slots(neededWins); let i = index"></span>
+      </div>
+      <div class="vs-mini">Series</div>
+      <div class="dots">
+        <span class="dot" [class.on]="i < state.gamesWon[1]" *ngFor="let _ of slots(neededWins); let i = index"></span>
+      </div>
+    </div>
+    <div class="row" style="margin-left:auto; gap:10px;">
+      <button class="btn btn-ghost" (click)="nextGame()" [disabled]="state.matchOver">Next Game</button>
+    </div>
+  </div>
+</div>
+
+<div class="card versus-card" [class.over]="state.matchOver">
+  <div class="side left">
+    <div class="name">
+      <input class="input name-input" [(ngModel)]="state.teams[0].name" (blur)="rename(state.teams[0], state.teams[0].name)" />
+    </div>
+    <div class="controls">
+      <button aria-label="Increase left score" class="btn circle" (click)="inc(state.teams[0])" [disabled]="state.matchOver">▲</button>
+      <div class="score-badge big" [id]="'score-' + state.teams[0].id">{{ state.teams[0].score }}</div>
+      <button aria-label="Decrease left score" class="btn circle" (click)="dec(state.teams[0])" [disabled]="state.matchOver">▼</button>
+    </div>
+  </div>
+
+  <div class="center">
+    <div class="vs">VS</div>
+    <div class="divider"></div>
+    <div class="series-tally">{{ state.gamesWon[0] }} - {{ state.gamesWon[1] }}</div>
+  </div>
+
+  <div class="side right">
+    <div class="name">
+      <input class="input name-input" [(ngModel)]="state.teams[1].name" (blur)="rename(state.teams[1], state.teams[1].name)" />
+    </div>
+    <div class="controls">
+      <button aria-label="Increase right score" class="btn circle" (click)="inc(state.teams[1])" [disabled]="state.matchOver">▲</button>
+      <div class="score-badge big" [id]="'score-' + state.teams[1].id">{{ state.teams[1].score }}</div>
+      <button aria-label="Decrease right score" class="btn circle" (click)="dec(state.teams[1])" [disabled]="state.matchOver">▼</button>
+    </div>
+  </div>
+
+  <div class="winner-banner" *ngIf="state.matchOver">
+    <div class="trophy">🏆</div>
+    <div class="label">
+      Match Winner:
+      <strong>{{ state.gamesWon[0] > state.gamesWon[1] ? state.teams[0].name : state.teams[1].name }}</strong>
+    </div>
+  </div>
+</div>

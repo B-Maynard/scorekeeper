@@ -1,0 +1,60 @@
+
+<div class="card" style="margin-top:20px">
+  <div class="row">
+    <div style="flex:1">
+      <label style="font-size:12px; color:var(--muted)">Entrants (comma or newline separated)</label>
+      <textarea class="input" rows="4" [(ngModel)]="state.entrants" [disabled]="state.started"
+        placeholder="Alice, Bob, Charlie, Dana, ..."></textarea>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-end; justify-content:flex-end; min-width:180px;">
+      <button class="btn btn-cta" (click)="start()" [disabled]="state.started">Create Bracket</button>
+      <button class="btn btn-ghost" [disabled]="!history.canUndo()" (click)="undo()">Undo</button>
+      <button class="btn btn-danger" (click)="reset()">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="state.started" class="card" style="margin-top:16px; overflow:auto">
+  <div class="bracket">
+    <div class="round" *ngFor="let round of state.rounds; let r = index">
+      <h3>Round {{ r + 1 }}</h3>
+      <div class="match" *ngFor="let m of round.matches; let i = index">
+        <div class="slot" [class.winner]="m.winner?.id === m.a?.id"
+             [id]="'slot-' + (m.a?.id || ('a-'+i+'-'+r))"
+             (click)="m.a && selectWinner(r, i, m.a)">
+          <span>{{ m.a?.name || '—' }}</span>
+        </div>
+        <div class="slot" [class.winner]="m.winner?.id === m.b?.id"
+             [id]="'slot-' + (m.b?.id || ('b-'+i+'-'+r))"
+             (click)="m.b && selectWinner(r, i, m.b)">
+          <span>{{ m.b?.name || '—' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="celebrate-overlay" *ngIf="showCelebration">
+  <div class="celebrate-banner">
+    <div class="trophy">🏆</div>
+    <div class="label">Champion</div>
+    <div class="name">{{ champion }}</div>
+    <div class="btn-row">
+    <button class="btn btn-cta" (click)="playAgain()">Play again</button>
+    <button class="btn btn-ghost" (click)="resetAndHide()">Reset</button>
+  </div>
+  </div>
+  <div class="confetti">
+    <div
+      class="piece"
+      *ngFor="let c of confetti; let i = index"
+      [style.left]="c.x + 'vw'"
+      [style.top]="c.y + 'vh'"
+      [style.background]="c.color"
+      [style.animationDuration]="c.dur + 's'"
+      [style.animationDelay]="c.delay + 's'"
+      [style.transform]="'rotate(' + c.rot + 'deg) scale(' + c.scale + ')'">
+    </div>
+  </div>
+</div>

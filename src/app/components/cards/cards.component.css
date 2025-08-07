@@ -1,0 +1,16 @@
+
+textarea.input { resize: vertical; }
+
+
+.number-input {
+  min-width: 140px;
+  max-width: 200px;
+}
+
+.amount-btn {
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
