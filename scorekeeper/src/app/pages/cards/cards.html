@@ -2,7 +2,7 @@
     <p-table
         [value]="playerData"
         editMode="cell"
-        (onEditComplete)="onEditComplete()"
+        (onEditComplete)="onEditComplete($event)"
         [tableStyle]="{ 'min-width': '50rem' }"
     >
         <ng-template #header>
@@ -14,7 +14,7 @@
         </ng-template>
         <ng-template #body let-player let-i="index">
             <tr>
-                <td [pEditableColumn]="player.name" pEditableColumnField="name">
+                <td pEditableColumn pEditableColumnField="name">
                     <p-cellEditor>
                         <ng-template #input>
                             <input pInputText type="text" fluid />
@@ -24,7 +24,7 @@
                         </ng-template>
                     </p-cellEditor>
                 </td>
-                <td [pEditableColumn]="player.points" pEditableColumnField="points">
+                <td pEditableColumn pEditableColumnField="points">
                     <p-cellEditor>
                         <ng-template #input>
                             <input pInputText type="number" fluid />
@@ -34,7 +34,7 @@
                         </ng-template>
                     </p-cellEditor>
                 </td>
-                <td [pEditableColumn]="player.notes" pEditableColumnField="notes">
+                <td pEditableColumn pEditableColumnField="notes">
                     <p-cellEditor>
                         <ng-template #input>
                             <input pInputText type="text" fluid />

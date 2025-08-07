@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { TableModule } from 'primeng/table';
+import { TableModule, TableEditCompleteEvent } from 'primeng/table';
 import { CardsService } from '../../services/cards.service';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
@@ -68,7 +68,10 @@ export class Cards implements OnInit {
         });
   }
 
-  onEditComplete() {
+  onEditComplete(event: TableEditCompleteEvent) {
+    if (event.index !== undefined && event.data) {
+      this.playerData[event.index] = event.data as Player;
+    }
     this.cardsService.saveGameData(this.playerData);
   }
 }
