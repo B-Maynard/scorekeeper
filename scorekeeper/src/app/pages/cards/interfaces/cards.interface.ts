@@ -1,8 +1,8 @@
-interface CardsGame {
-    playerData: Player[]
+export interface CardsGame {
+    playerData: Player[];
 }
 
-interface Player {
+export interface Player {
     name: string;
     points: number;
     notes: string;
