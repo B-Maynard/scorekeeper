@@ -1,95 +1,174 @@
-
-.versus-card {
-  margin-top: 16px;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 20px;
-  align-items: center;
-  position: relative;
-}
-
-.versus-card.over {
-  filter: saturate(1.05);
-}
-
-.side {
+.teams-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-}
+  gap: 40px;
 
-.side .controls {
-  display: grid;
-  grid-template-columns: 60px 1fr 60px;
-  align-items: center;
-  gap: 12px;
-  justify-items: center;
-}
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(49, 58, 77);
+    padding: 5px 10px 5px 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 4px 1px black;
 
-.name-input {
-  text-align: center;
-  font-weight: 700;
-  font-size: 18px;
-}
+    .settings {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
 
-.btn.circle {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  font-size: 22px;
-  padding: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
+    .setting {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
 
-.score-badge.big {
-  min-width: 160px;
-  font-size: 36px;
-  padding: 16px 20px;
-}
+    .series-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      gap: 30px;
+    }
 
-.center {
-  display: grid;
-  gap: 12px;
-  align-items: center;
-  justify-items: center;
-}
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
 
-.series-tally {
-  font-weight: 700;
-  color: var(--muted);
-  margin-top: 6px;
-}
+    .text-input {
+      border-radius: 5px;
+      font-size: 18px;
+    }
+  }
 
-.vs {
-  font-family: "Press Start 2P", ui-sans-serif, system-ui;
-  font-size: 16px;
-  color: #fff;
-  letter-spacing: 2px;
-  text-shadow: 0 2px 0 #000, 0 0 20px rgba(91,140,255,0.5);
-  background: linear-gradient(135deg, rgba(91,140,255,0.35), rgba(125,240,194,0.35));
-  border: 1px solid rgba(255,255,255,0.2);
-  padding: 8px 12px;
-  border-radius: 10px;
-}
+  .versus-card {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: rgb(49, 58, 77);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    box-shadow: 0 0 4px 1px black;
 
-.divider {
-  width: 2px;
-  height: 100%;
-  min-height: 160px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
-  box-shadow: 0 0 12px rgba(91,140,255,0.25), 0 0 24px rgba(125,240,194,0.2);
-}
+    .name {
+      display: flex;
+      justify-content: center;
 
-.settings-card .setting {
-  display: grid;
-  gap: 6px;
-  min-width: 160px;
-}
-.settings-card label {
-  font-size: 12px;
-  color: var(--muted);
+      .name-input {
+        text-align: center;
+        font-weight: 700;
+        font-size: 18px;
+        border-radius: 5px;
+      }
+    }
+
+    .side {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+
+        .btn.circle {
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          font-size: 22px;
+          padding: 0;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+
+      .score-badge {
+        background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
+        padding: 15px;
+        color: black;
+        font-weight: bolder;
+        font-size: 2em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 20px;
+        box-shadow: 0 0 4px 1px white;
+      }
+    }
+
+    .center {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+
+      .vs {
+        font-family: "Press Start 2P", ui-sans-serif, system-ui;
+        font-size: 16px;
+        color: #fff;
+        letter-spacing: 2px;
+        text-shadow: 0 2px 0 #000, 0 0 20px rgba(91, 140, 255, 0.5);
+        background: linear-gradient(135deg, rgba(91, 140, 255, 0.35), rgba(125, 240, 194, 0.35));
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 8px 12px;
+        border-radius: 10px;
+      }
+
+      .divider {
+        width: 2px;
+        height: 100%;
+        min-height: 160px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+        box-shadow: 0 0 12px rgba(91, 140, 255, 0.25), 0 0 24px rgba(125, 240, 194, 0.2);
+      }
+    }
+  }
+
+  .versus-card.over {
+    filter: saturate(1.05);
+  }
+
+  /* Winner banner */
+  .winner-banner {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    left: 50%;
+    top: -14px;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    background: linear-gradient(135deg, rgb(125, 240, 194), rgb(91, 140, 255));
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.8);
+
+    .text {
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+
+      .trophy {
+        font-size: 18px;
+      }
+
+      .label {
+        font-weight: 800;
+      }
+    }
+  }
+
+
 }
 
 .series-status {
@@ -99,48 +178,29 @@
   gap: 10px;
   padding: 6px 10px;
   border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.14);
-  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .series-status .dots {
   display: inline-flex;
   gap: 6px;
 }
+
 .series-status .dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.18);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
+
 .series-status .dot.on {
   background: var(--accent-2);
-  box-shadow: 0 0 10px rgba(125,240,194,0.7), inset 0 1px 0 rgba(255,255,255,0.7);
+  box-shadow: 0 0 10px rgba(125, 240, 194, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
+
 .series-status .vs-mini {
   font-size: 11px;
   color: var(--muted);
-}
-
-/* Winner banner */
-.winner-banner {
-  position: absolute;
-  left: 50%;
-  top: -14px;
-  transform: translateX(-50%);
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.2);
-  background: linear-gradient(135deg, rgba(125,240,194,0.25), rgba(91,140,255,0.25));
-  box-shadow: 0 10px 24px rgba(0,0,0,0.35);
-}
-.winner-banner .trophy {
-  font-size: 18px;
-}
-.winner-banner .label {
-  font-weight: 800;
 }

@@ -1,8 +1,9 @@
 html, body {
-    height: 99%;
     font-family: 'Roboto';
     background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
     color: white;
+    font-weight: 500;
+    margin-right: 5px;
 }
 
 
@@ -15,6 +16,8 @@ html, body {
     align-items: center;
     border-radius: 10px;
     box-shadow: 0 0 1px 2px white;
+    padding: 5px;
+    
 
     background-color: rgb(23, 17, 54);
 }
@@ -22,6 +25,7 @@ html, body {
 .medium-btn:hover {
     background-color: #4b6cb7;
     cursor: pointer;
+    transform: translateY(-1px);
 }
 
 .medium-btn-ghost {
@@ -31,6 +35,7 @@ html, body {
     justify-content: center;
     align-items: center;
     border-radius: 10px;
+    padding: 5px;
 
     background-color: rgb(204, 204, 204);
     color: black;
@@ -39,6 +44,7 @@ html, body {
 .medium-btn-ghost:hover {
     background-color: rgb(153, 153, 153);;
     cursor: pointer;
+    transform: translateY(-1px);
 }
 
 .medium-btn-danger {
@@ -48,15 +54,57 @@ html, body {
     justify-content: center;
     align-items: center;
     border-radius: 10px;
+    padding: 5px;
 
     background-color: rgb(184, 19, 19);
     color: white;
 }
 
 .medium-btn-danger:hover {
-    background-color: rgb(184, 19, 19);
+    background-color: rgb(231, 73, 73);
     cursor: pointer;
+    transform: translateY(-1px);
 }
+
+.small-btn-danger {
+    height: 40px;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+
+    background-color: rgb(184, 19, 19);
+    color: white;
+    padding: 2px;
+}
+
+.small-btn-danger:hover {
+    background-color: rgb(231, 73, 73);
+    cursor: pointer;
+    transform: translateY(-1px);
+}
+
+.small-btn-success {
+    height: 40px;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+
+    background-color: rgb(6, 173, 0);
+    color: white;
+    padding: 2px;
+}
+
+.small-btn-success:hover {
+    background-color: rgb(139, 247, 139);
+    cursor: pointer;
+    transform: translateY(-1px);
+}
+
+// general
 
 .text-input {
     border-radius: 5px;
