@@ -16,7 +16,7 @@ interface CardsState {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './cards.component.html',
-  styleUrls: ['./cards.component.css']
+  styleUrls: ['./cards.component.scss']
 })
 export class CardsComponent {
   state: CardsState = {

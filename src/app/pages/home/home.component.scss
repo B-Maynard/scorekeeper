@@ -1,0 +1,30 @@
+.cards-wrapper {
+  padding: 5px;
+
+  .cards-container {
+    display: flex;
+    gap: 20px;
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      background-color: #182848;
+      border-radius: 10px;
+      box-shadow: 0 0 1px 2px white;
+
+      p {
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .cards-container {
+      flex-direction: column;
+  }
+}

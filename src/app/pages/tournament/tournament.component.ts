@@ -26,7 +26,7 @@ interface ConfettiPiece {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './tournament.component.html',
-  styleUrls: ['./tournament.component.css']
+  styleUrls: ['./tournament.component.scss']
 })
 export class TournamentComponent {
   state: TournamentState = { entrants: '', rounds: [], started: false };

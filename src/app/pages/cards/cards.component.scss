@@ -1,0 +1,13 @@
+.cards-wrapper {
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .add-player-container {
+            display: flex;
+            gap: 5px;
+        }
+    }
+}
