@@ -20,11 +20,11 @@ export class GamesService {
         descriptionText: 'Team vs Team with single point increment/decrement.',
         actionRoute: '/teams'
       },
-      {
-        headerText: 'Tournament',
-        descriptionText: 'Bracket-style tournament with click-to-advance and animations.',
-        actionRoute: '/tournament'
-      }
+      // {
+      //   headerText: 'Tournament',
+      //   descriptionText: 'Bracket-style tournament with click-to-advance and animations.',
+      //   actionRoute: '/tournament'
+      // }
     ]
   }
 }
