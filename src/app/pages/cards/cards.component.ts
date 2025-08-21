@@ -7,7 +7,6 @@ import { StorageSvc } from '../../storage';
 
 interface CardsState {
   players: Player[];
-  customAmount: number;
   newPlayer: string;
 }
 
@@ -21,7 +20,6 @@ interface CardsState {
 export class CardsComponent {
   state: CardsState = {
     players: [],
-    customAmount: 5,
     newPlayer: ''
   };
   sessionId = '';
@@ -53,7 +51,7 @@ export class CardsComponent {
   addPlayer() {
     const name = this.state.newPlayer.trim();
     if (!name) return;
-    this.state.players.push({ id: uuid(), name, score: 0, notes: '' });
+    this.state.players.push({ id: uuid(), name, score: 0, notes: '', customAmount: 0});
     this.state.newPlayer = '';
     this.commit();
   }
@@ -83,7 +81,7 @@ export class CardsComponent {
   }
 
   reset() {
-    this.state = { players: [], customAmount: 5, newPlayer: '' };
+    this.state = { players: [], newPlayer: '' };
     this.history.reset();
     this.sessionId = StorageSvc.newSession('cards');
     this.commit();

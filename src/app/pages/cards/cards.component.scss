@@ -90,6 +90,9 @@
                     align-items: center;
                     background-color: rgb(109, 116, 131);
                     border-radius: 10px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
                 }
             }
 
