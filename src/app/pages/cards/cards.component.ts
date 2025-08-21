@@ -16,7 +16,7 @@ interface CardsState {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './cards.component.html',
-  styleUrls: ['./cards.component.css']
+  styleUrls: ['./cards.component.scss']
 })
 export class CardsComponent {
   state: CardsState = {
@@ -50,14 +50,6 @@ export class CardsComponent {
     this.history.push(this.state);
   }
 
-  flashScore(id: string) {
-    const el = document.getElementById('score-' + id);
-    if (!el) return;
-    el.classList.remove('score-pulse');
-    void (el as any).offsetWidth;
-    el.classList.add('score-pulse');
-  }
-
   addPlayer() {
     const name = this.state.newPlayer.trim();
     if (!name) return;
@@ -73,13 +65,11 @@ export class CardsComponent {
 
   plus(p: Player, amount: number) {
     p.score += amount;
-    this.flashScore(p.id);
     this.commit();
   }
 
   minus(p: Player, amount: number) {
     p.score -= amount;
-    this.flashScore(p.id);
     this.commit();
   }
 

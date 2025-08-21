@@ -1,0 +1,11 @@
+<div class="cards-wrapper">
+    <div class="cards-container">
+        @for (option of gameOptions; track $index) {
+            <div class="card">
+                <h2>{{option?.headerText}}</h2>
+                <p>{{option?.descriptionText}}</p>
+                <div class="medium-btn" [routerLink]="option?.actionRoute">Open</div>
+            </div>
+        }
+    </div>
+</div>

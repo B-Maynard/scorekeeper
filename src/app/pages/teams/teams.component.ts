@@ -23,7 +23,7 @@ interface TeamsState {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './teams.component.html',
-  styleUrls: ['./teams.component.css']
+  styleUrls: ['./teams.component.scss']
 })
 export class TeamsComponent {
   state: TeamsState = {
