@@ -1,0 +1,50 @@
+<div class="team-score-container" [class.fullscreen-enabled]="fullscreenMode() && teams().length === 2">
+  @if (fullscreenMode() && teams().length === 2) {
+    <button class="exit-fullscreen-btn" (click)="fullscreenMode.set(false)">×</button>
+  }
+  <div class="header flex-between mb-lg">
+    <a routerLink="/" class="back-btn">← Back</a>
+    <h2>Team Mode</h2>
+    <div class="header-actions">
+      @if (teams().length === 2) {
+        <button class="btn-text text-accent mr-md" (click)="fullscreenMode.set(true)">Fullscreen</button>
+      }
+      <button class="btn-text text-danger" (click)="resetScores()">Reset</button>
+    </div>
+  </div>
+
+  <div class="teams-list">
+    @for (team of teams(); track team.id) {
+      <div class="card team-card">
+        <div class="team-header flex-between mb-md">
+          <h3>{{ team.name }}</h3>
+          @if (teams().length > 2) {
+            <button class="remove-btn text-danger" (click)="removeTeam(team.id)">×</button>
+          }
+        </div>
+        
+        <div class="score-display">{{ team.score }}</div>
+        
+        <div class="controls">
+          <button class="btn btn-secondary btn-large" (click)="addScore(team.id, -1)">-1</button>
+          <button class="btn btn-primary btn-large" (click)="addScore(team.id, 1)">+1</button>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="add-team-section card mt-lg">
+    <h3 class="mb-sm text-secondary">Add a Team</h3>
+    <div class="add-team-form">
+      <input 
+        type="text" 
+        class="input-field" 
+        placeholder="Team Name" 
+        [ngModel]="newTeamName()" 
+        (ngModelChange)="newTeamName.set($event)"
+        (keyup.enter)="addTeam()"
+      >
+      <button class="btn btn-primary" (click)="addTeam()" [disabled]="!newTeamName().trim()">Add</button>
+    </div>
+  </div>
+</div>

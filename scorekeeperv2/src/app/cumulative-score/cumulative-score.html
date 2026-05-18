@@ -1,0 +1,109 @@
+<div class="cumulative-container">
+  <div class="header flex-between mb-md">
+    <a routerLink="/" class="back-btn">← Back</a>
+    <h2>Cumulative Mode</h2>
+    @if (phase() === 'playing') {
+      <button class="btn-text text-danger" (click)="resetGame()">Reset</button>
+    } @else {
+      <div></div>
+    }
+  </div>
+
+  <!-- SETUP PHASE -->
+  @if (phase() === 'setup') {
+    <div class="setup-phase">
+      <p class="text-center text-muted mb-lg">Add players before starting</p>
+      
+      <div class="players-list mb-lg">
+        @for (player of players(); track player.id) {
+          <div class="card flex-between player-item">
+            <span>{{ player.name }}</span>
+            <button class="remove-btn text-danger" (click)="removePlayer(player.id)">×</button>
+          </div>
+        }
+        @if (players().length === 0) {
+          <p class="text-center text-secondary">No players added yet.</p>
+        }
+      </div>
+
+      <div class="add-player-form mb-lg">
+        <input 
+          type="text" 
+          class="input-field" 
+          placeholder="Player Name" 
+          [ngModel]="newPlayerName()" 
+          (ngModelChange)="newPlayerName.set($event)"
+          (keyup.enter)="addPlayer()"
+        >
+        <button class="btn btn-primary mt-sm" (click)="addPlayer()" [disabled]="!newPlayerName().trim()">Add Player</button>
+      </div>
+
+      <div class="settings-section mb-lg card">
+        <h3 class="mb-sm">Ranking Rule</h3>
+        <div class="radio-group">
+          <label class="radio-label">
+            <input type="radio" name="winCondition" value="highest" [ngModel]="winCondition()" (ngModelChange)="winCondition.set($event)">
+            Highest Score Wins
+          </label>
+          <label class="radio-label mt-sm">
+            <input type="radio" name="winCondition" value="lowest" [ngModel]="winCondition()" (ngModelChange)="winCondition.set($event)">
+            Lowest Score Wins
+          </label>
+        </div>
+      </div>
+
+      <button 
+        class="btn btn-secondary start-btn" 
+        (click)="startGame()" 
+        [disabled]="players().length === 0"
+      >
+        Start Game
+      </button>
+    </div>
+  }
+
+  <!-- PLAYING PHASE -->
+  @if (phase() === 'playing') {
+    <div class="playing-phase">
+      
+      <!-- Leaderboard -->
+      <div class="leaderboard-section mb-xl">
+        <h3 class="mb-md text-accent text-center">Leaderboard</h3>
+        <div class="leaderboard-list">
+          @for (player of leaderboard(); track player.id; let i = $index) {
+            <div class="leaderboard-item card flex-between" [class.first-place]="i === 0">
+              <div class="rank-name">
+                <span class="rank">#{{ i + 1 }}</span>
+                <span class="name">{{ player.name }}</span>
+              </div>
+              <div class="score">{{ player.totalScore }} pts</div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Round Input Form -->
+      <div class="round-input-section card">
+        <h3 class="mb-md">Enter Round Scores</h3>
+        
+        <div class="input-list mb-lg">
+          @for (player of players(); track player.id) {
+            <div class="input-row flex-between mb-sm">
+              <span class="name">{{ player.name }}</span>
+              <input 
+                type="number" 
+                class="input-field num-input" 
+                placeholder="0"
+                [ngModel]="roundInput()[player.id]"
+                (ngModelChange)="setPlayerRoundScore(player.id, $event)"
+              >
+            </div>
+          }
+        </div>
+
+        <button class="btn btn-primary mt-lg" (click)="submitRound()">Submit Round</button>
+      </div>
+      
+    </div>
+  }
+</div>

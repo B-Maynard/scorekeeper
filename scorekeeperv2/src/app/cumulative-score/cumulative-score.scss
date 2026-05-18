@@ -1,0 +1,143 @@
+.cumulative-container {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: var(--space-xl);
+}
+
+.header {
+  align-items: center;
+}
+
+.back-btn {
+  color: var(--accent-secondary);
+  text-decoration: none;
+  font-weight: 600;
+  padding: var(--space-sm) 0;
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  font-weight: 600;
+  font-size: var(--font-size-base);
+  cursor: pointer;
+}
+
+.text-danger {
+  color: var(--accent-danger);
+}
+
+.text-accent {
+  color: var(--accent-secondary);
+}
+
+.mt-sm { margin-top: var(--space-sm); }
+
+/* Setup Phase */
+.player-item {
+  padding: var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  font-size: var(--font-size-xl);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.add-player-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  cursor: pointer;
+  font-size: var(--font-size-base);
+}
+
+.radio-label input[type="radio"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  accent-color: var(--accent-primary);
+  cursor: pointer;
+}
+
+.start-btn {
+  width: 100%;
+}
+
+/* Playing Phase */
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.leaderboard-item {
+  padding: var(--space-md);
+  margin-bottom: 0;
+}
+
+.leaderboard-item.first-place {
+  border-color: var(--accent-warning);
+  box-shadow: 0 0 8px rgba(255, 171, 64, 0.2);
+}
+
+.leaderboard-item.first-place .rank {
+  color: var(--accent-warning);
+}
+
+.rank-name {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.rank {
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.name {
+  font-weight: 600;
+}
+
+.score {
+  font-weight: 700;
+  font-size: var(--font-size-lg);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Round Input */
+.input-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.input-row {
+  align-items: center;
+}
+
+.input-row .name {
+  flex: 1;
+}
+
+.num-input {
+  width: 100px;
+  text-align: right;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}

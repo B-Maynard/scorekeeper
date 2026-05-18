@@ -1,0 +1,199 @@
+.team-score-container {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: var(--space-xl);
+}
+
+.header {
+  align-items: center;
+}
+
+.back-btn {
+  color: var(--accent-secondary);
+  text-decoration: none;
+  font-weight: 600;
+  padding: var(--space-sm) 0;
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  font-weight: 600;
+  font-size: var(--font-size-base);
+  cursor: pointer;
+}
+
+.text-danger {
+  color: var(--accent-danger);
+}
+
+.text-accent {
+  color: var(--accent-secondary);
+}
+
+.mr-md {
+  margin-right: var(--space-md);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.teams-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-md);
+}
+
+.team-card {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: var(--space-md);
+}
+
+.team-header {
+  align-items: center;
+  border-bottom: 1px solid var(--card-border);
+  padding-bottom: var(--space-sm);
+  min-height: 40px;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  font-size: var(--font-size-xl);
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 var(--space-sm);
+}
+
+.score-display {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: var(--space-md) 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.controls {
+  display: flex;
+  gap: var(--space-sm);
+  width: 100%;
+}
+
+.btn-large {
+  font-size: 1.5rem;
+  height: 60px;
+  flex: 1;
+  min-width: 0;
+  padding: 0; /* Remove default padding so it doesn't overflow */
+}
+
+.mt-lg {
+  margin-top: var(--space-lg);
+}
+
+.add-team-form {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.add-team-form .btn {
+  width: auto;
+  min-width: 100px;
+}
+
+.exit-fullscreen-btn {
+  display: none;
+}
+
+/* Fullscreen Head-to-Head Mode */
+.team-score-container.fullscreen-enabled {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  background: var(--bg-primary);
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+}
+
+.team-score-container.fullscreen-enabled .header,
+.team-score-container.fullscreen-enabled .add-team-section {
+  display: none;
+}
+
+.team-score-container.fullscreen-enabled .teams-list {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  gap: 0;
+}
+
+.team-score-container.fullscreen-enabled .team-card {
+  flex: 1;
+  border-radius: 0;
+  border: none;
+  border-right: 2px solid var(--card-border);
+  justify-content: center;
+  padding: var(--space-lg);
+  margin-bottom: 0;
+}
+
+.team-score-container.fullscreen-enabled .team-card:last-child {
+  border-right: none;
+}
+
+.team-score-container.fullscreen-enabled .score-display {
+  font-size: clamp(6rem, 25vh, 15rem);
+  margin: auto 0;
+}
+
+.team-score-container.fullscreen-enabled .team-header {
+  border-bottom: none;
+}
+
+.team-score-container.fullscreen-enabled .team-header h3 {
+  font-size: 2rem;
+  width: 100%;
+  text-align: center;
+}
+
+.team-score-container.fullscreen-enabled .remove-btn {
+  display: none;
+}
+
+.team-score-container.fullscreen-enabled .controls {
+  height: 25vh;
+}
+
+.team-score-container.fullscreen-enabled .btn-large {
+  height: 100%;
+  font-size: 2rem;
+}
+
+.team-score-container.fullscreen-enabled .exit-fullscreen-btn {
+  display: flex;
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-round);
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--text-primary);
+  border: 1px solid var(--card-border);
+  font-size: 2rem;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+  line-height: 1;
+  padding-bottom: 4px; /* optical center */
+}

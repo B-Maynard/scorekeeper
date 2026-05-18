@@ -1,0 +1,38 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+
+.mode-cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.mode-card {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+}
+
+.mode-card:hover, .mode-card:active {
+  transform: translateY(-4px);
+  border-color: var(--accent-primary);
+}
+
+.mode-card h2 {
+  margin-bottom: var(--space-sm);
+  color: var(--accent-primary);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.mb-xl {
+  margin-bottom: var(--space-xl);
+}
