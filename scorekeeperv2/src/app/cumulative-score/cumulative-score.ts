@@ -31,6 +31,7 @@ export class CumulativeScore {
   
   // State for the current round input
   roundInput = signal<RoundInput>({});
+  animatingPlayers = signal<Record<string, boolean>>({});
 
   // Computed Leaderboard (sorted by totalScore depending on winCondition)
   leaderboard = computed(() => {
@@ -121,17 +122,22 @@ export class CumulativeScore {
   }
 
   submitRound() {
-    const inputs = this.roundInput();
-    this.players.update(players => {
-      return players.map(p => {
-        const roundPoints = inputs[p.id] || 0;
+    this.players.update(players => 
+      players.map(p => {
+        const addedScore = Number(this.roundInput()[p.id] || 0);
+        if (addedScore !== 0) {
+          this.animatingPlayers.update(state => ({ ...state, [p.id]: true }));
+          setTimeout(() => {
+            this.animatingPlayers.update(state => ({ ...state, [p.id]: false }));
+          }, 300);
+        }
         return {
           ...p,
-          totalScore: p.totalScore + Number(roundPoints)
+          totalScore: p.totalScore + addedScore
         };
-      });
-    });
-    this.initRoundInput(); // Reset inputs for next round
+      })
+    );
+    this.initRoundInput();
   }
 
   resetGame() {

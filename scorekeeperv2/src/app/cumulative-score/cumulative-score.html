@@ -91,7 +91,7 @@
                 <span class="rank">#{{ i + 1 }}</span>
                 <span class="name">{{ player.name }}</span>
               </div>
-              <div class="score">{{ player.totalScore }} pts</div>
+              <div class="score" [class.score-animate]="animatingPlayers()[player.id]">{{ player.totalScore }} pts</div>
             </div>
           }
         </div>

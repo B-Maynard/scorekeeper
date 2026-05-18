@@ -3,29 +3,32 @@
    ========================================================================== */
 
 :root {
-  /* Color Palette - Dark Mode Default */
-  --bg-primary: #121212;
-  --bg-secondary: #1e1e1e;
-  --bg-tertiary: #2c2c2c;
+  /* Dynamic Background */
+  --bg-primary: #0b0c10;
+  --bg-gradient: radial-gradient(circle at 15% 50%, rgba(77, 25, 114, 0.4), transparent 50%),
+                 radial-gradient(circle at 85% 30%, rgba(0, 168, 255, 0.25), transparent 50%),
+                 radial-gradient(circle at 50% 100%, rgba(0, 230, 118, 0.15), transparent 50%),
+                 #0a0b12;
 
   --text-primary: #ffffff;
-  --text-secondary: #b3b3b3;
-  --text-muted: #808080;
+  --text-secondary: #c9d1d9;
+  --text-muted: #8b949e;
 
-  --accent-primary: #00e676; /* Vibrant Green */
-  --accent-secondary: #00b0ff; /* Light Blue */
-  --accent-danger: #ff5252; /* Red */
-  --accent-warning: #ffab40; /* Orange */
+  /* Neon Accents */
+  --accent-primary: #00ff88; /* Neon Green */
+  --accent-secondary: #00e5ff; /* Cyan */
+  --accent-danger: #ff3366; /* Hot Pink */
+  --accent-warning: #ffb300; /* Warm Amber */
 
   /* Glassmorphism / UI Elements */
   --card-bg: rgba(255, 255, 255, 0.05);
-  --card-border: rgba(255, 255, 255, 0.1);
-  --input-bg: rgba(0, 0, 0, 0.2);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --input-bg: rgba(0, 0, 0, 0.25);
 
   /* Shadows */
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.4);
 
   /* Spacing */
   --space-xs: 0.25rem;
@@ -35,7 +38,7 @@
   --space-xl: 2rem;
 
   /* Typography */
-  --font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-family: 'Outfit', 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
   --font-size-lg: 1.25rem;
@@ -43,9 +46,9 @@
   --font-size-2xl: 2rem;
 
   /* Border Radius */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
   --radius-round: 50%;
 }
 
@@ -62,7 +65,8 @@
 html, body {
   height: 100%;
   width: 100%;
-  background-color: var(--bg-primary);
+  background: var(--bg-gradient);
+  background-attachment: fixed;
   color: var(--text-primary);
   font-family: var(--font-family);
   font-size: 16px;
@@ -107,13 +111,13 @@ h3 { font-size: var(--font-size-lg); }
   align-items: center;
   justify-content: center;
   padding: 1rem 1.5rem;
-  border-radius: var(--radius-md);
+  border-radius: 100px; /* Pill shape */
   border: none;
   font-family: var(--font-family);
   font-size: var(--font-size-lg);
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: transform 0.1s ease, background-color 0.2s ease, opacity 0.2s ease;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s ease, box-shadow 0.2s ease;
   min-height: 56px; /* Minimum tap target size */
   width: 100%;
 }
@@ -125,36 +129,56 @@ h3 { font-size: var(--font-size-lg); }
 .btn-primary {
   background-color: var(--accent-primary);
   color: #000;
+  box-shadow: 0 4px 15px rgba(0, 255, 136, 0.25);
 }
 
 .btn-primary:hover {
-  background-color: #00c853; /* Darker green */
+  background-color: #33ff99; 
+  box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4);
+  transform: translateY(-2px);
 }
 
 .btn-secondary {
-  background-color: var(--bg-tertiary);
+  background-color: rgba(255, 255, 255, 0.1);
   color: var(--text-primary);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
 .btn-secondary:hover {
-  background-color: #3d3d3d;
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
 }
 
 .btn-danger {
   background-color: var(--accent-danger);
   color: #fff;
+  box-shadow: 0 4px 15px rgba(255, 51, 102, 0.25);
+}
+
+.btn-danger:hover {
+  background-color: #ff6688;
+  box-shadow: 0 6px 20px rgba(255, 51, 102, 0.4);
+  transform: translateY(-2px);
 }
 
 /* Cards */
 .card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
+  border-top: 1px solid rgba(255, 255, 255, 0.15); /* Glass edge */
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
-  backdrop-filter: blur(10px); /* Glassmorphism */
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-md);
   margin-bottom: var(--space-md);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
 }
 
 /* Inputs */
@@ -219,4 +243,15 @@ h3 { font-size: var(--font-size-lg); }
   height: 1.25rem;
   accent-color: var(--accent-primary);
   cursor: pointer;
+}
+
+/* Animations */
+@keyframes scorePop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); color: var(--accent-primary); }
+  100% { transform: scale(1); }
+}
+
+.score-animate {
+  animation: scorePop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }

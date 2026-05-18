@@ -22,6 +22,7 @@ export class TeamScore {
   teams = signal<Team[]>([]);
   newTeamName = signal<string>('');
   fullscreenMode = signal<boolean>(false);
+  animatingTeams = signal<Record<string, boolean>>({});
 
   constructor() {
     // Load from local storage
@@ -83,6 +84,10 @@ export class TeamScore {
     this.teams.update(teams => 
       teams.map(t => t.id === id ? { ...t, score: t.score + amount } : t)
     );
+    this.animatingTeams.update(state => ({ ...state, [id]: true }));
+    setTimeout(() => {
+      this.animatingTeams.update(state => ({ ...state, [id]: false }));
+    }, 300);
   }
 
   addTeam() {
