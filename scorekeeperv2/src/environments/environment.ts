@@ -1,12 +1,12 @@
 export const environment = {
   production: false,
   firebase: {
-    projectId: 'scorekeeper-6e316',
-    appId: '1:362054146234:web:4d21962babf13ab1cc8a83',
-    databaseURL: 'https://scorekeeper-6e316-default-rtdb.firebaseio.com/',
-    storageBucket: 'scorekeeper-6e316.firebasestorage.app',
-    apiKey: 'AIzaSyCT4u0Qx33NdhXPm89s7zV1G_TVNyZL2SI',
-    authDomain: 'scorekeeper-6e316.firebaseapp.com',
-    messagingSenderId: '362054146234'
+    projectId: 'demo-project-id',
+    appId: '1:1234567890:web:abcdef123456',
+    databaseURL: 'https://demo-project-id-default-rtdb.firebaseio.com',
+    storageBucket: 'demo-project-id.appspot.com',
+    apiKey: 'AIzaSyA-Placeholder-API-Key-Here',
+    authDomain: 'demo-project-id.firebaseapp.com',
+    messagingSenderId: '1234567890'
   }
 };
