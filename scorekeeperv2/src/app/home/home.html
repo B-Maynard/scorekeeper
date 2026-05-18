@@ -1,7 +1,25 @@
 <div class="home-container">
-  <h1 class="text-center mb-lg">ScoreKeeper</h1>
-  
-  <p class="text-center text-muted mb-xl">Select a game mode to start</p>
+  <h1 class="text-center mb-lg">Deck Loop</h1>
+
+  <p class="text-center text-muted mb-xl">Select a game mode to start or join a room to watch</p>
+
+  @if (roomService.isOnline()) {
+  <div class="join-room-section card mb-xl">
+    <h3 class="mb-sm text-center">Join a Room</h3>
+    <div class="flex-center" style="gap: var(--space-sm);">
+      <input type="text" class="input-field"
+        style="text-transform: uppercase; letter-spacing: 2px; text-align: center; max-width: 150px;" placeholder="CODE"
+        maxlength="6" [ngModel]="roomCode()" (ngModelChange)="roomCode.set($event)" (keyup.enter)="joinRoom()">
+      <button class="btn btn-secondary" style="width: auto;" (click)="joinRoom()"
+        [disabled]="!roomCode().trim()">Join</button>
+    </div>
+  </div>
+  } @else {
+  <div class="join-room-section card mb-xl text-center">
+    <h3 class="mb-sm text-muted">Offline Mode</h3>
+    <p class="text-secondary" style="font-size: 0.85rem;">Connect to the internet to join or host a game.</p>
+  </div>
+  }
 
   <div class="mode-cards">
     <a routerLink="/team" class="card mode-card">

@@ -1,7 +1,8 @@
-import { Component, signal, effect, computed } from '@angular/core';
+import { Component, signal, effect, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { RoomService } from '../services/room.service';
 
 export interface Team {
   id: string;
@@ -17,6 +18,7 @@ export interface Team {
   styleUrl: './team-score.scss'
 })
 export class TeamScore {
+  public roomService = inject(RoomService);
   teams = signal<Team[]>([]);
   newTeamName = signal<string>('');
   fullscreenMode = signal<boolean>(false);
@@ -44,12 +46,26 @@ export class TeamScore {
 
     // Auto-save effect
     effect(() => {
-      const state = {
+      const state: any = {
+        mode: 'team',
         teams: this.teams(),
         fullscreenMode: this.fullscreenMode()
       };
       localStorage.setItem('team_score_state', JSON.stringify(state));
+      this.roomService.updateRoomState(state);
     });
+  }
+
+  async toggleHost() {
+    if (this.roomService.isHosting()) {
+      this.roomService.stopHosting();
+    } else {
+      await this.roomService.hostRoom({
+        mode: 'team',
+        teams: this.teams(),
+        fullscreenMode: this.fullscreenMode()
+      } as any);
+    }
   }
 
   initDefaultTeams() {

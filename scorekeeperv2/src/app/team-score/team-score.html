@@ -9,9 +9,24 @@
       @if (teams().length === 2) {
         <button class="btn-text text-accent mr-md" (click)="fullscreenMode.set(true)">Fullscreen</button>
       }
+      @if (roomService.isOnline()) {
+        <button class="btn-text mr-md" [class.text-accent]="roomService.isHosting()" (click)="toggleHost()">
+          {{ roomService.isHosting() ? 'Stop Hosting' : 'Host' }}
+        </button>
+      }
       <button class="btn-text text-danger" (click)="resetScores()">Reset</button>
     </div>
   </div>
+
+  @if (roomService.isHosting()) {
+    <div class="host-banner flex-between mb-md">
+      <div>
+        <div class="text-accent" style="font-weight: 700; font-size: 0.9rem;">Live Room</div>
+        <div class="text-muted" style="font-size: 0.8rem;">Share code to watch</div>
+      </div>
+      <div class="host-code">{{ roomService.hostRoomCode() }}</div>
+    </div>
+  }
 
   <div class="teams-list">
     @for (team of teams(); track team.id) {

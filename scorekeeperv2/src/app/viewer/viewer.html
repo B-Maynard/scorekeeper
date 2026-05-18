@@ -1,0 +1,70 @@
+<div class="viewer-container" [class.fullscreen-enabled]="fullscreenMode() && roomService.viewerState()?.teams?.length === 2">
+  @if (fullscreenMode() && roomService.viewerState()?.teams?.length === 2) {
+    <button class="exit-fullscreen-btn" (click)="fullscreenMode.set(false)">×</button>
+  }
+  <div class="header flex-between mb-lg">
+    <a routerLink="/" class="back-btn">← Leave</a>
+    <h2>Live View: {{ roomService.viewerRoomCode() }}</h2>
+    <div class="header-actions">
+      @if (roomService.viewerState()?.mode === 'team' && roomService.viewerState()?.teams?.length === 2) {
+        <button class="btn-text text-accent" (click)="fullscreenMode.set(true)">Fullscreen</button>
+      }
+    </div>
+  </div>
+
+  @if (errorMsg()) {
+    <div class="card bg-danger">
+      <p class="text-center">{{ errorMsg() }}</p>
+    </div>
+  }
+
+  @if (roomService.viewerState(); as state) {
+    <!-- TEAM MODE VIEWER -->
+    @if (state.mode === 'team' && state.teams) {
+      <div class="teams-list">
+        @for (team of state.teams; track team.id) {
+          <div class="card team-card">
+            <div class="team-header mb-md">
+              <h3 class="text-center">{{ team.name }}</h3>
+            </div>
+            <div class="score-display text-center">{{ team.score }}</div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- CUMULATIVE MODE VIEWER -->
+    @if (state.mode === 'cumulative') {
+      <div class="playing-phase">
+        @if (state.phase === 'setup') {
+          <div class="card text-center mb-lg">
+            <h3 class="mb-sm">Waiting to start...</h3>
+            <p class="text-muted">Host is setting up the game.</p>
+          </div>
+        }
+        
+        <div class="leaderboard-section mb-xl">
+          <h3 class="mb-md text-accent text-center">Leaderboard</h3>
+          <div class="leaderboard-list">
+            @for (player of state.players; track player.id; let i = $index) {
+              <div class="leaderboard-item card flex-between" [class.first-place]="i === 0">
+                <div class="rank-name">
+                  <span class="rank">#{{ i + 1 }}</span>
+                  <span class="name">{{ player.name }}</span>
+                </div>
+                <div class="score">{{ player.totalScore }} pts</div>
+              </div>
+            }
+            @if (!state.players || state.players.length === 0) {
+              <p class="text-center text-muted">No players yet.</p>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  } @else if (!errorMsg()) {
+    <div class="text-center mt-xl">
+      <p class="text-muted">Loading room...</p>
+    </div>
+  }
+</div>

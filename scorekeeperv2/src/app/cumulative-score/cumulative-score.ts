@@ -1,7 +1,8 @@
-import { Component, signal, computed, effect } from '@angular/core';
+import { Component, signal, computed, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { RoomService } from '../services/room.service';
 
 export interface Player {
   id: string;
@@ -21,6 +22,8 @@ export interface RoundInput {
   styleUrl: './cumulative-score.scss'
 })
 export class CumulativeScore {
+  public roomService = inject(RoomService);
+  
   phase = signal<'setup' | 'playing'>('setup');
   players = signal<Player[]>([]);
   newPlayerName = signal<string>('');
@@ -53,14 +56,30 @@ export class CumulativeScore {
     }
 
     effect(() => {
-      const state = {
+      const state: any = {
+        mode: 'cumulative',
         phase: this.phase(),
         players: this.players(),
         winCondition: this.winCondition(),
         roundInput: this.roundInput()
       };
       localStorage.setItem('cumulative_score_state', JSON.stringify(state));
+      this.roomService.updateRoomState(state);
     });
+  }
+
+  async toggleHost() {
+    if (this.roomService.isHosting()) {
+      this.roomService.stopHosting();
+    } else {
+      await this.roomService.hostRoom({
+        mode: 'cumulative',
+        players: this.players(),
+        phase: this.phase(),
+        winCondition: this.winCondition(),
+        roundInput: this.roundInput()
+      } as any);
+    }
   }
 
   generateId(): string {
