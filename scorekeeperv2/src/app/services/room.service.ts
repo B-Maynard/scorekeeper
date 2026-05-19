@@ -155,6 +155,27 @@ export class RoomService {
       }
     });
 
+    // Listen for cheerEvents specifically for spectators as well!
+    onValue(ref(this.db, `rooms/${upperCode}/cheerEvents`), (snapshot) => {
+      const events: Record<string, { emoji: string, timestamp: number, name?: string, avatar?: string }> = snapshot.val();
+      if (events) {
+         const cheers = Object.entries(events);
+         if (cheers.length > 0) {
+             const latest = cheers.reduce((prev, curr) => (curr[1].timestamp > prev[1].timestamp ? curr : prev));
+             this.latestCheer.set({ 
+               emoji: latest[1].emoji, 
+               id: latest[0],
+               name: latest[1].name,
+               avatar: latest[1].avatar
+             });
+         } else {
+             this.latestCheer.set(null);
+         }
+      } else {
+         this.latestCheer.set(null);
+      }
+    });
+
     return true;
   }
 
@@ -167,8 +188,11 @@ export class RoomService {
       }
       const roomRef = ref(this.db, `rooms/${code}`);
       off(roomRef); // stop listening
+      off(ref(this.db, `rooms/${code}/cheerEvents`)); // stop listening to cheers for viewer as well!
+      
       this.viewerRoomCode.set(null);
       this.viewerState.set(null);
+      this.latestCheer.set(null);
     }
   }
 

@@ -11,7 +11,9 @@
       </div>
     }
   </div>
+}
 
+@if (roomService.isHosting() || roomService.viewerRoomCode()) {
   <!-- Floating Cheers Layer -->
   <div class="cheers-layer">
     @for (cheer of activeCheers(); track cheer.id) {
