@@ -1,0 +1,71 @@
+.chess-timer-container {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--bg-primary);
+  z-index: 50; /* Over everything but modals */
+}
+
+.playing-phase {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.timer-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: #18181b;
+  transition: background-color 0.15s ease;
+  user-select: none;
+  
+  &.top-timer {
+    transform: rotate(180deg);
+  }
+  
+  &.active {
+    background-color: rgba(16, 185, 129, 0.15);
+  }
+  
+  &.loser {
+    background-color: rgba(239, 68, 68, 0.15);
+  }
+}
+
+.time-display {
+  font-size: clamp(4rem, 15vw, 8rem);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+  
+  &.danger {
+    color: var(--accent-danger);
+    animation: pulse 1s infinite alternate;
+  }
+}
+
+.game-over-text {
+  color: var(--accent-danger);
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+@keyframes pulse {
+  from { opacity: 1; }
+  to { opacity: 0.5; }
+}
+
+.controls-bar {
+  height: 80px;
+  background-color: var(--card-border);
+  z-index: 10;
+  box-shadow: var(--shadow-lg);
+}

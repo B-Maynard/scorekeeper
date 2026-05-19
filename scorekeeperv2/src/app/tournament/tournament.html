@@ -1,0 +1,134 @@
+<div class="tournament-container" [class.container]="phase() === 'setup'">
+  <!-- Host Controls Header -->
+  <div class="header flex-between mb-lg">
+    <a routerLink="/" class="icon-btn" title="Back">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+    </a>
+    <h2>Tournament Mode</h2>
+    <div class="header-actions flex-center" style="gap: var(--space-sm);">
+      @if (roomService.isOnline()) {
+        <button class="icon-btn" [class.text-accent]="roomService.isHosting()" [title]="roomService.isHosting() ? 'Stop Hosting' : 'Host'" (click)="toggleHost()">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12 18.75h.007v.008H12v-.008z"/></svg>
+        </button>
+      }
+    </div>
+  </div>
+
+  @if (roomService.isHosting()) {
+    <div class="host-banner flex-between mb-md">
+      <div>
+        <div class="text-accent" style="font-weight: 700; font-size: 0.9rem;">Live Room</div>
+        <div class="text-muted" style="font-size: 0.8rem;">Share code to watch</div>
+      </div>
+      <div class="host-code">{{ roomService.hostRoomCode() }}</div>
+    </div>
+  }
+
+  <!-- SETUP PHASE -->
+  @if (phase() === 'setup') {
+  <div class="card">
+    <h3 class="mb-sm text-center">Add Participants</h3>
+    <p class="text-center text-muted mb-md" style="font-size: 0.9rem;">Input at least 3 players to generate a bracket.</p>
+    <div class="flex-center mb-md" style="gap: var(--space-sm);">
+      <input type="text" class="input-field" placeholder="Player or Team Name" [ngModel]="newParticipantName()"
+        (ngModelChange)="newParticipantName.set($event)" (keyup.enter)="addParticipant()">
+      <button class="btn btn-primary" style="width: auto;" (click)="addParticipant()"
+        [disabled]="!newParticipantName().trim()">Add</button>
+    </div>
+
+    <div class="participant-list">
+      @for (p of participants(); track p.id) {
+      <div class="participant-item card mb-sm flex-between" style="padding: var(--space-sm) var(--space-md);">
+        <span>{{ p.name }}</span>
+        <button class="icon-btn text-danger" (click)="removeParticipant(p.id)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6 6 18M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      }
+      @if (participants().length === 0) {
+      <p class="text-center text-muted mt-md">No participants added yet.</p>
+      }
+    </div>
+
+    <button class="btn btn-primary mt-xl" (click)="startTournament()" [disabled]="participants().length < 3">
+      Generate Bracket
+    </button>
+  </div>
+  }
+
+  <!-- BRACKET PHASE -->
+  @if (phase() === 'active' || phase() === 'completed') {
+  <div class="bracket-scroll-wrapper">
+    <div class="bracket-layout">
+      @for (r of rounds(); track r.roundNum) {
+      <div class="bracket-column">
+        <h4 class="text-center text-muted mb-md">
+          @if (r.roundNum === rounds().length) { Finals }
+          @else if (r.roundNum === rounds().length - 1) { Semi-Finals }
+          @else { Round {{ r.roundNum }} }
+        </h4>
+        @for (m of r.matches; track m.id) {
+        <div class="match-card card" 
+             [class.is-playable]="m.player1 && m.player2 && !m.winnerId"
+             [class.is-completed]="m.winnerId"
+             [class.is-bye-match]="m.player1 === null || m.player2 === null"
+             (click)="openMatch(m.id)">
+          
+          <div class="match-player flex-between" [class.is-winner]="m.winnerId === m.player1?.id" [class.is-loser]="m.winnerId && m.winnerId !== m.player1?.id">
+            <span class="player-name">{{ m.player1?.name || (m.round === 1 ? 'BYE' : 'TBD') }}</span>
+            <span class="player-score" *ngIf="m.score1 !== null">{{ m.score1 }}</span>
+          </div>
+          
+          <div class="match-divider"></div>
+
+          <div class="match-player flex-between" [class.is-winner]="m.winnerId === m.player2?.id" [class.is-loser]="m.winnerId && m.winnerId !== m.player2?.id">
+            <span class="player-name">{{ m.player2?.name || (m.round === 1 ? 'BYE' : 'TBD') }}</span>
+            <span class="player-score" *ngIf="m.score2 !== null">{{ m.score2 }}</span>
+          </div>
+
+        </div>
+        }
+      </div>
+      }
+    </div>
+  </div>
+
+  @if (phase() === 'completed') {
+    <div class="card mt-md text-center" style="border-color: var(--accent-primary);">
+      <h2 style="color: var(--accent-primary);">Tournament Complete!</h2>
+      <p>Congratulations to the winner!</p>
+    </div>
+  }
+
+  <div class="flex-center mt-xl mb-xl">
+    <button class="btn btn-secondary" style="max-width: 200px;" (click)="resetTournament()">Edit Setup</button>
+  </div>
+  }
+
+  <!-- SCORE ENTRY MODAL -->
+  @if (activeMatchId()) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content card" (click)="$event.stopPropagation()">
+      <h3 class="text-center mb-lg">Enter Scores</h3>
+      
+      <div class="grid-2 mb-lg">
+        <div class="text-center">
+          <label class="text-muted mb-sm" style="display: block;">{{ matches()[activeMatchId()!].player1?.name }}</label>
+          <input type="number" class="input-field text-center" [ngModel]="activeScore1()" (ngModelChange)="activeScore1.set($event)" style="font-size: var(--font-size-xl);">
+        </div>
+        <div class="text-center">
+          <label class="text-muted mb-sm" style="display: block;">{{ matches()[activeMatchId()!].player2?.name }}</label>
+          <input type="number" class="input-field text-center" [ngModel]="activeScore2()" (ngModelChange)="activeScore2.set($event)" style="font-size: var(--font-size-xl);">
+        </div>
+      </div>
+      
+      <div class="flex-between" style="gap: var(--space-md);">
+        <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+        <button class="btn btn-primary" (click)="submitScore()">Submit Winner</button>
+      </div>
+    </div>
+  </div>
+  }
+</div>

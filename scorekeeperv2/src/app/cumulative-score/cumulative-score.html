@@ -1,128 +1,141 @@
-<div class="cumulative-container">
+<div class="cumulative-container container">
   <div class="header flex-between mb-md">
     <a routerLink="/" class="icon-btn" title="Back">
-      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+      </svg>
     </a>
     <h2>Cumulative Mode</h2>
     <div class="header-actions flex-center" style="gap: var(--space-sm);">
       @if (roomService.isOnline()) {
-        <button class="icon-btn" [class.text-accent]="roomService.isHosting()" [title]="roomService.isHosting() ? 'Stop Hosting' : 'Host'" (click)="toggleHost()">
-          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12 18.75h.007v.008H12v-.008z"/></svg>
-        </button>
+      <button class="icon-btn" [class.text-accent]="roomService.isHosting()"
+        [title]="roomService.isHosting() ? 'Stop Hosting' : 'Host'" (click)="toggleHost()">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12 18.75h.007v.008H12v-.008z" />
+        </svg>
+      </button>
       }
       @if (phase() === 'playing') {
-        <button class="icon-btn text-danger" title="Reset" (click)="resetGame()">
-          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-        </button>
+      <button class="icon-btn text-danger" title="Reset" (click)="resetGame()">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+      </button>
       }
     </div>
   </div>
 
   @if (roomService.isHosting()) {
-    <div class="host-banner flex-between mb-md">
+  <div class="card mb-md" style="padding: var(--space-sm) var(--space-md); border-color: var(--accent-secondary);">
+    <div class="flex-between">
       <div>
-        <div class="text-accent" style="font-weight: 700; font-size: 0.9rem;">Live Room</div>
+        <div class="text-accent" style="font-weight: 700; font-size: 0.9rem;">Live Room: {{ roomService.hostRoomCode()
+          }}</div>
         <div class="text-muted" style="font-size: 0.8rem;">Share code to watch</div>
       </div>
-      <div class="host-code">{{ roomService.hostRoomCode() }}</div>
+      @if (phase() === 'setup') {
+      <label
+        style="display: flex; align-items: center; gap: var(--space-sm); cursor: pointer; font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">
+        <span>{{ContextText.VIEWERSJOIN}}</span>
+        <input type="checkbox" [ngModel]="allowViewerJoin()" (ngModelChange)="allowViewerJoin.set($event)"
+          style="cursor: pointer; accent-color: var(--accent-secondary); width: 1.2rem; height: 1.2rem;">
+      </label>
+      } @else {
+      <span class="text-muted" style="font-size: 0.8rem; font-style: italic;">Game in progress</span>
+      }
     </div>
+  </div>
   }
 
   <!-- SETUP PHASE -->
   @if (phase() === 'setup') {
-    <div class="setup-phase">
-      <p class="text-center text-muted mb-lg">Add players before starting</p>
-      
-      <div class="players-list mb-lg">
-        @for (player of players(); track player.id) {
-          <div class="card flex-between player-item">
-            <span>{{ player.name }}</span>
-            <button class="remove-btn text-danger" (click)="removePlayer(player.id)">×</button>
-          </div>
-        }
-        @if (players().length === 0) {
-          <p class="text-center text-secondary">No players added yet.</p>
-        }
-      </div>
+  <div class="setup-phase">
+    <p class="text-center text-muted mb-lg">Add players before starting</p>
 
-      <div class="add-player-form mb-lg">
-        <input 
-          type="text" 
-          class="input-field" 
-          placeholder="Player Name" 
-          [ngModel]="newPlayerName()" 
-          (ngModelChange)="newPlayerName.set($event)"
-          (keyup.enter)="addPlayer()"
-        >
-        <button class="btn btn-primary mt-sm" (click)="addPlayer()" [disabled]="!newPlayerName().trim()">Add Player</button>
+    <div class="players-list mb-lg">
+      @for (player of players(); track player.id) {
+      <div class="card flex-between player-item">
+        <span>{{ player.name }}</span>
+        <button class="remove-btn text-danger" (click)="removePlayer(player.id)">×</button>
       </div>
-
-      <div class="settings-section mb-lg card">
-        <h3 class="mb-sm">Ranking Rule</h3>
-        <div class="radio-group">
-          <label class="radio-label">
-            <input type="radio" name="winCondition" value="highest" [ngModel]="winCondition()" (ngModelChange)="winCondition.set($event)">
-            Highest Score Wins
-          </label>
-          <label class="radio-label mt-sm">
-            <input type="radio" name="winCondition" value="lowest" [ngModel]="winCondition()" (ngModelChange)="winCondition.set($event)">
-            Lowest Score Wins
-          </label>
-        </div>
-      </div>
-
-      <button 
-        class="btn btn-secondary start-btn" 
-        (click)="startGame()" 
-        [disabled]="players().length === 0"
-      >
-        Start Game
-      </button>
+      }
+      @if (players().length === 0) {
+      <p class="text-center text-secondary">No players added yet.</p>
+      }
     </div>
+
+    <div class="add-player-form mb-lg">
+      <input type="text" class="input-field" placeholder="Player Name" [ngModel]="newPlayerName()"
+        (ngModelChange)="newPlayerName.set($event)" (keyup.enter)="addPlayer()">
+      <button class="btn btn-primary mt-sm" (click)="addPlayer()" [disabled]="!newPlayerName().trim()">Add
+        Player</button>
+    </div>
+
+    <div class="settings-section mb-lg card">
+      <h3 class="mb-sm">Ranking Rule</h3>
+      <div class="radio-group">
+        <label class="radio-label">
+          <input type="radio" name="winCondition" value="highest" [ngModel]="winCondition()"
+            (ngModelChange)="winCondition.set($event)">
+          Highest Score Wins
+        </label>
+        <label class="radio-label mt-sm">
+          <input type="radio" name="winCondition" value="lowest" [ngModel]="winCondition()"
+            (ngModelChange)="winCondition.set($event)">
+          Lowest Score Wins
+        </label>
+      </div>
+    </div>
+
+    <button class="btn btn-secondary start-btn" (click)="startGame()" [disabled]="players().length === 0">
+      Start Game
+    </button>
+  </div>
   }
 
   <!-- PLAYING PHASE -->
   @if (phase() === 'playing') {
-    <div class="playing-phase">
-      
-      <!-- Leaderboard -->
-      <div class="leaderboard-section mb-xl">
-        <h3 class="mb-md text-accent text-center">Leaderboard</h3>
-        <div class="leaderboard-list">
-          @for (player of leaderboard(); track player.id; let i = $index) {
-            <div class="leaderboard-item card flex-between" [class.first-place]="i === 0">
-              <div class="rank-name">
-                <span class="rank">#{{ i + 1 }}</span>
-                <span class="name">{{ player.name }}</span>
-              </div>
-              <div class="score" [class.score-animate]="animatingPlayers()[player.id]">{{ player.totalScore }} pts</div>
-            </div>
-          }
-        </div>
-      </div>
+  <div class="playing-phase">
 
-      <!-- Round Input Form -->
-      <div class="round-input-section card">
-        <h3 class="mb-md">Enter Round Scores</h3>
-        
-        <div class="input-list mb-lg">
-          @for (player of players(); track player.id) {
-            <div class="input-row flex-between mb-sm">
-              <span class="name">{{ player.name }}</span>
-              <input 
-                type="number" 
-                class="input-field num-input" 
-                placeholder="0"
-                [ngModel]="roundInput()[player.id]"
-                (ngModelChange)="setPlayerRoundScore(player.id, $event)"
-              >
-            </div>
-          }
+    <!-- Leaderboard -->
+    <div class="leaderboard-section mb-xl">
+      <h3 class="mb-md text-accent text-center">Leaderboard</h3>
+      <div class="leaderboard-list">
+        @for (player of leaderboard(); track player.id; let i = $index) {
+        <div class="leaderboard-item card flex-between" [class.first-place]="i === 0">
+          <div class="rank-name">
+            <span class="rank">#{{ i + 1 }}</span>
+            <span class="name">{{ player.name }}</span>
+          </div>
+          <div class="score" [class.score-animate]="animatingPlayers()[player.id]">{{ player.totalScore }} pts</div>
         </div>
-
-        <button class="btn btn-primary mt-lg" (click)="submitRound()">Submit Round</button>
+        }
       </div>
-      
     </div>
+
+    <!-- Round Input Form -->
+    <div class="round-input-section card">
+      <h3 class="mb-md">Enter Round Scores</h3>
+
+      <div class="input-list mb-lg">
+        @for (player of players(); track player.id) {
+        <div class="input-row flex-between mb-sm">
+          <span class="name">{{ player.name }}</span>
+          <input type="number" class="input-field num-input" placeholder="0" [ngModel]="roundInput()[player.id]"
+            (ngModelChange)="setPlayerRoundScore(player.id, $event)">
+        </div>
+        }
+      </div>
+
+      <button class="btn btn-primary mt-lg" (click)="submitRound()">Submit Round</button>
+    </div>
+
+    <div class="flex-center mt-xl mb-xl">
+      <button class="btn btn-secondary" style="max-width: 200px;" (click)="phase.set('setup')">Edit Setup</button>
+    </div>
+
+  </div>
   }
 </div>

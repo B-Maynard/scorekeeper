@@ -1,4 +1,4 @@
-import { Component, signal, effect, computed, inject } from '@angular/core';
+import { Component, signal, effect, computed, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -8,6 +8,7 @@ export interface Team {
   id: string;
   name: string;
   score: number;
+  isSpectator?: boolean;
 }
 
 @Component({
@@ -17,11 +18,12 @@ export interface Team {
   templateUrl: './team-score.html',
   styleUrl: './team-score.scss'
 })
-export class TeamScore {
+export class TeamScore implements OnDestroy {
   public roomService = inject(RoomService);
   teams = signal<Team[]>([]);
   newTeamName = signal<string>('');
   fullscreenMode = signal<boolean>(false);
+  allowViewerJoin = signal<boolean>(false);
   animatingTeams = signal<Record<string, boolean>>({});
 
   constructor() {
@@ -36,6 +38,7 @@ export class TeamScore {
         } else {
           this.teams.set(state.teams || []);
           this.fullscreenMode.set(state.fullscreenMode || false);
+          this.allowViewerJoin.set(state.allowViewerJoin || false);
         }
       } catch (e) {
         console.error('Failed to parse saved state', e);
@@ -50,10 +53,52 @@ export class TeamScore {
       const state: any = {
         mode: 'team',
         teams: this.teams(),
-        fullscreenMode: this.fullscreenMode()
+        fullscreenMode: this.fullscreenMode(),
+        allowViewerJoin: this.allowViewerJoin()
       };
       localStorage.setItem('team_score_state', JSON.stringify(state));
       this.roomService.updateRoomState(state);
+    });
+
+    // Ingest spectator join requests as new players/teams
+    effect(() => {
+      const requests = this.roomService.hostPlayerRequests();
+      if (requests && this.roomService.isHosting() && this.allowViewerJoin()) {
+        const currentTeams = this.teams();
+        let updated = false;
+        const newTeams = [...currentTeams];
+        
+        Object.entries(requests).forEach(([id, req]) => {
+          if (!newTeams.some(t => t.id === id)) {
+            newTeams.push({ id, name: req.name, score: 0, isSpectator: true });
+            updated = true;
+          }
+          // Resolve immediately so it clears from the request queue
+          this.roomService.resolvePlayerRequest(id);
+        });
+        
+        if (updated) {
+          this.teams.set(newTeams);
+        }
+      }
+    });
+
+    // Monitor spectator players for immediate disconnection cleanup
+    effect(() => {
+      const activeSpectators = this.roomService.hostSpectators();
+      const currentTeams = this.teams();
+      const isHosting = this.roomService.isHosting();
+      
+      if (isHosting) {
+        const offlineSpectatorIds = currentTeams
+          .filter(t => t.isSpectator && activeSpectators[t.id] === undefined)
+          .map(t => t.id);
+          
+        if (offlineSpectatorIds.length > 0) {
+          console.log('Spectator players offline. Immediately auto-removing from roster:', offlineSpectatorIds);
+          this.teams.update(teams => teams.filter(t => !offlineSpectatorIds.includes(t.id)));
+        }
+      }
     });
   }
 
@@ -64,7 +109,8 @@ export class TeamScore {
       await this.roomService.hostRoom({
         mode: 'team',
         teams: this.teams(),
-        fullscreenMode: this.fullscreenMode()
+        fullscreenMode: this.fullscreenMode(),
+        allowViewerJoin: this.allowViewerJoin()
       } as any);
     }
   }
@@ -110,4 +156,6 @@ export class TeamScore {
       this.teams.update(teams => teams.map(t => ({ ...t, score: 0 })));
     }
   }
+
+  ngOnDestroy() {}
 }

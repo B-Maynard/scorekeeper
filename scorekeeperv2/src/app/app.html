@@ -1,3 +1,29 @@
-<div class="container">
-  <router-outlet></router-outlet>
-</div>
+<router-outlet></router-outlet>
+
+<!-- GLOBAL SPECTATOR HOST HUD -->
+@if (roomService.isHosting()) {
+  <!-- Active Spectators -->
+  <div class="host-spectator-hud">
+    @for (spec of roomService.hostSpectators() | keyvalue; track spec.key) {
+      <div class="spectator-avatar" [title]="spec.value.name">
+        <span class="emoji">{{ spec.value.emoji }}</span>
+        <span class="name">{{ spec.value.name }}</span>
+      </div>
+    }
+  </div>
+
+  <!-- Floating Cheers Layer -->
+  <div class="cheers-layer">
+    @for (cheer of activeCheers(); track cheer.id) {
+      <div class="floating-cheer" [style.left.%]="cheer.left">
+        @if (cheer.name) {
+          <div class="cheer-badge">
+            <span class="cheer-badge-avatar">{{ cheer.avatar || '😎' }}</span>
+            <span class="cheer-badge-name">{{ cheer.name }}</span>
+          </div>
+        }
+        <div class="cheer-emoji">{{ cheer.emoji }}</div>
+      </div>
+    }
+  </div>
+}

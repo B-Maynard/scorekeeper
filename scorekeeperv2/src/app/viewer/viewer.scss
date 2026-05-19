@@ -188,3 +188,92 @@
   line-height: 1;
   padding-bottom: 4px;
 }
+
+/* ==========================================================================
+   Bracket Read-Only View Styles
+   ========================================================================== */
+
+.bracket-scroll-wrapper {
+  overflow-x: auto;
+  overflow-y: auto;
+  padding: var(--space-md) 0;
+  flex-grow: 1;
+  /* Soft scrollbar for bracket */
+  &::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--card-border);
+    border-radius: 4px;
+  }
+}
+
+.bracket-layout {
+  display: flex;
+  gap: 3rem;
+  min-width: min-content;
+  padding: 1rem;
+}
+
+.bracket-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  min-width: 240px;
+  gap: var(--space-lg);
+  position: relative;
+}
+
+.match-card {
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.2s ease;
+  cursor: default; /* Non-interactive for spectators */
+  
+  &.is-playable {
+    border-color: var(--accent-secondary);
+  }
+
+  &.is-completed {
+    border-color: var(--card-border);
+    opacity: 0.8;
+  }
+
+  &.is-bye-match {
+    border-color: rgba(255, 255, 255, 0.03) !important;
+    background-color: rgba(255, 255, 255, 0.01) !important;
+    opacity: 0.3;
+  }
+}
+
+.match-player {
+  padding: var(--space-sm) var(--space-md);
+  font-weight: 500;
+  
+  &.is-winner {
+    color: var(--accent-primary);
+    background-color: rgba(16, 185, 129, 0.05);
+  }
+  
+  &.is-loser {
+    color: var(--text-muted);
+    text-decoration: line-through;
+  }
+  
+  .player-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .player-score {
+    font-weight: 700;
+  }
+}
+
+.match-divider {
+  height: 1px;
+  background-color: var(--card-border);
+}

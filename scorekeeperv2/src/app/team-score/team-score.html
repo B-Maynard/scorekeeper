@@ -1,4 +1,4 @@
-<div class="team-score-container" [class.fullscreen-enabled]="fullscreenMode() && teams().length === 2">
+<div class="team-score-container container" [class.fullscreen-enabled]="fullscreenMode() && teams().length === 2">
   @if (fullscreenMode() && teams().length === 2) {
     <button class="exit-fullscreen-btn" (click)="fullscreenMode.set(false)">×</button>
   }
@@ -25,12 +25,17 @@
   </div>
 
   @if (roomService.isHosting()) {
-    <div class="host-banner flex-between mb-md">
-      <div>
-        <div class="text-accent" style="font-weight: 700; font-size: 0.9rem;">Live Room</div>
-        <div class="text-muted" style="font-size: 0.8rem;">Share code to watch</div>
+    <div class="card mb-md" style="padding: var(--space-sm) var(--space-md); border-color: var(--accent-secondary);">
+      <div class="flex-between">
+        <div>
+          <div class="text-accent" style="font-weight: 700; font-size: 0.9rem;">Live Room: {{ roomService.hostRoomCode() }}</div>
+          <div class="text-muted" style="font-size: 0.8rem;">Share code to watch</div>
+        </div>
+        <label style="display: flex; align-items: center; gap: var(--space-sm); cursor: pointer; font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">
+          <span>Allow viewers to join</span>
+          <input type="checkbox" [ngModel]="allowViewerJoin()" (ngModelChange)="allowViewerJoin.set($event)" style="cursor: pointer; accent-color: var(--accent-secondary); width: 1.2rem; height: 1.2rem;">
+        </label>
       </div>
-      <div class="host-code">{{ roomService.hostRoomCode() }}</div>
     </div>
   }
 

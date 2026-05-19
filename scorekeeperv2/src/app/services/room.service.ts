@@ -1,14 +1,17 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { Database } from '@angular/fire/database';
-import { ref, set, onValue, off, update, get, onDisconnect } from 'firebase/database';
+import { Database, ref, set, onValue, off, update, get, onDisconnect } from '@angular/fire/database';
 
 export interface RoomState {
-  mode: 'team' | 'cumulative';
+  mode: 'team' | 'cumulative' | 'tournament';
   teams?: any[];
   players?: any[];
   phase?: string;
   roundInput?: any;
   winCondition?: string;
+  tournamentState?: any;
+  allowViewerJoin?: boolean;
+  spectators?: Record<string, { name: string, emoji: string }>;
+  cheerEvents?: Record<string, { emoji: string, timestamp: number, name?: string, avatar?: string }>;
 }
 
 @Injectable({
@@ -22,6 +25,11 @@ export class RoomService {
   public viewerState = signal<RoomState | null>(null);
   public isHosting = signal<boolean>(false);
   public hostRoomCode = signal<string | null>(null);
+  
+  // Host tracking of viewers
+  public hostSpectators = signal<Record<string, { name: string, emoji: string }>>({});
+  public hostPlayerRequests = signal<Record<string, { name: string }>>({});
+  public latestCheer = signal<{ emoji: string, id: string, name?: string, avatar?: string } | null>(null);
   
   public isOnline = signal<boolean>(false);
 
@@ -65,24 +73,62 @@ export class RoomService {
     await set(roomRef, initialState);
     this.isHosting.set(true);
     this.hostRoomCode.set(code);
+    
+    // Listen for spectator actions specifically
+    onValue(ref(this.db, `rooms/${code}/spectators`), (snapshot) => {
+      this.hostSpectators.set(snapshot.val() || {});
+    });
+    
+    onValue(ref(this.db, `rooms/${code}/playerRequests`), (snapshot) => {
+      this.hostPlayerRequests.set(snapshot.val() || {});
+    });
+    
+    onValue(ref(this.db, `rooms/${code}/cheerEvents`), (snapshot) => {
+      const events: Record<string, { emoji: string, timestamp: number, name?: string, avatar?: string }> = snapshot.val();
+      if (events) {
+         const cheers = Object.entries(events);
+         if (cheers.length > 0) {
+             const latest = cheers.reduce((prev, curr) => (curr[1].timestamp > prev[1].timestamp ? curr : prev));
+             this.latestCheer.set({ 
+               emoji: latest[1].emoji, 
+               id: latest[0],
+               name: latest[1].name,
+               avatar: latest[1].avatar
+             });
+         } else {
+             this.latestCheer.set(null);
+         }
+      } else {
+         this.latestCheer.set(null);
+      }
+    });
+
     return code;
   }
 
   // Update room state as host
-  updateRoomState(fullState: RoomState) {
+  updateRoomState(fullState: Partial<RoomState>) {
     if (this.isHosting() && this.hostRoomCode()) {
       const roomRef = ref(this.db, `rooms/${this.hostRoomCode()}`);
-      set(roomRef, fullState);
+      update(roomRef, fullState);
     }
   }
 
   stopHosting() {
     if (this.isHosting() && this.hostRoomCode()) {
-      const roomRef = ref(this.db, `rooms/${this.hostRoomCode()}`);
+      const code = this.hostRoomCode();
+      const roomRef = ref(this.db, `rooms/${code}`);
+      
+      // Stop listeners gracefully
+      off(ref(this.db, `rooms/${code}/spectators`));
+      off(ref(this.db, `rooms/${code}/cheerEvents`));
+      off(ref(this.db, `rooms/${code}/playerRequests`));
+      
       set(roomRef, null); // Delete the room
       onDisconnect(roomRef).cancel(); // Cancel the disconnect hook
       this.isHosting.set(false);
       this.hostRoomCode.set(null);
+      this.hostPlayerRequests.set({});
     }
   }
 
@@ -112,12 +158,55 @@ export class RoomService {
     return true;
   }
 
-  leaveRoom() {
+  leaveRoom(viewerId?: string) {
     if (this.viewerRoomCode()) {
-      const roomRef = ref(this.db, `rooms/${this.viewerRoomCode()}`);
+      const code = this.viewerRoomCode();
+      if (viewerId) {
+        const specRef = ref(this.db, `rooms/${code}/spectators/${viewerId}`);
+        set(specRef, null); // Gracefully remove spectator from database immediately on exit!
+      }
+      const roomRef = ref(this.db, `rooms/${code}`);
       off(roomRef); // stop listening
       this.viewerRoomCode.set(null);
       this.viewerState.set(null);
+    }
+  }
+
+  // Send a cheer as a viewer
+  sendCheer(roomCode: string, emoji: string, name?: string, avatar?: string) {
+    const cheerId = Date.now().toString() + Math.floor(Math.random() * 1000);
+    const cheerRef = ref(this.db, `rooms/${roomCode}/cheerEvents/${cheerId}`);
+    set(cheerRef, { 
+      emoji, 
+      timestamp: Date.now(),
+      name: name || 'Spectator',
+      avatar: avatar || '😎'
+    });
+    
+    // Auto cleanup cheer after 5 seconds to prevent DB bloat
+    setTimeout(() => {
+      set(cheerRef, null);
+    }, 5000);
+  }
+
+  // Set spectator info
+  setSpectatorInfo(roomCode: string, viewerId: string, name: string, emoji: string) {
+    const specRef = ref(this.db, `rooms/${roomCode}/spectators/${viewerId}`);
+    set(specRef, { name, emoji });
+    onDisconnect(specRef).remove();
+  }
+
+  // Submit a player join request
+  submitPlayerRequest(roomCode: string, viewerId: string, name: string) {
+    const reqRef = ref(this.db, `rooms/${roomCode}/playerRequests/${viewerId}`);
+    set(reqRef, { name });
+  }
+
+  // Resolve a player join request (called by host)
+  resolvePlayerRequest(viewerId: string) {
+    if (this.isHosting() && this.hostRoomCode()) {
+      const reqRef = ref(this.db, `rooms/${this.hostRoomCode()}/playerRequests/${viewerId}`);
+      set(reqRef, null);
     }
   }
 }
