@@ -15,17 +15,22 @@
   text-decoration: none;
   color: inherit;
   display: block;
-  transition: transform 0.2s ease, border-color 0.2s ease;
   cursor: pointer;
 }
 
 .mode-card:hover, .mode-card:active {
-  transform: translateY(-4px);
-  border-color: var(--accent-primary);
+  transform: translateY(-3px);
+  border-color: rgba(15, 185, 177, 0.35);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4);
 }
 
 .mode-card h2 {
   margin-bottom: var(--space-sm);
+  color: var(--text-primary);
+  transition: color 0.2s ease;
+}
+
+.mode-card:hover h2 {
   color: var(--accent-primary);
 }
 

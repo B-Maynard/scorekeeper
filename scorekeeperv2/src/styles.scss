@@ -3,29 +3,30 @@
    ========================================================================== */
 
 :root {
-  /* Subtle Radial Background */
-  --bg-primary: #09090b;
-  --bg-gradient: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.12), transparent 60%), #09090b;
+  /* Subtle Double Ambient Background */
+  --bg-primary: #080a10; /* Richer Slate dark */
+  --bg-gradient: radial-gradient(circle at 50% 0%, rgba(15, 185, 177, 0.07), transparent 60%),
+                 radial-gradient(circle at 100% 100%, rgba(95, 61, 196, 0.04), transparent 50%), #080a10;
 
-  --text-primary: #fafafa;
-  --text-secondary: #a1a1aa;
-  --text-muted: #71717a;
+  --text-primary: #f8fafc; /* Crisp Slate 50 */
+  --text-secondary: #94a3b8; /* Slate 400 */
+  --text-muted: #64748b; /* Slate 500 */
 
-  /* Sleek Accents */
-  --accent-primary: #10b981; /* Emerald */
-  --accent-secondary: #6366f1; /* Indigo */
-  --accent-danger: #ef4444; /* Red */
-  --accent-warning: #f59e0b; /* Amber */
+  /* Sleek Premium Accents */
+  --accent-primary: #0fb9b1; /* Teal-Emerald Hybrid */
+  --accent-secondary: #5f3dc4; /* Rich Violet-Indigo */
+  --accent-danger: #ef4444; /* Clean Red */
+  --accent-warning: #fcc419; /* Warm Gold */
 
   /* UI Elements */
-  --card-bg: rgba(24, 24, 27, 0.75); /* Zinc 900 frosted */
-  --card-border: rgba(39, 39, 42, 0.8); /* Zinc 800 */
-  --input-bg: rgba(9, 9, 11, 0.8);
+  --card-bg: rgba(15, 23, 42, 0.45); /* Slate 900 translucent */
+  --card-border: rgba(51, 65, 85, 0.35); /* Slate 700 translucent */
+  --input-bg: rgba(15, 23, 42, 0.65);
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -4px rgba(0, 0, 0, 0.15);
 
   /* Spacing */
   --space-xs: 0.25rem;
@@ -38,14 +39,14 @@
   --font-family: 'Outfit', 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
-  --font-size-lg: 1.25rem;
-  --font-size-xl: 1.5rem;
-  --font-size-2xl: 2rem;
+  --font-size-lg: 1.15rem; /* Cleaned up from 1.25rem */
+  --font-size-xl: 1.35rem; /* Cleaned up from 1.5rem */
+  --font-size-2xl: 1.85rem; /* Cleaned up from 2rem */
 
   /* Border Radius */
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
+  --radius-sm: 8px; /* Slightly tighter radii */
+  --radius-md: 12px;
+  --radius-lg: 18px;
   --radius-round: 50%;
 }
 
@@ -79,12 +80,13 @@ html, body {
    ========================================================================== */
 
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
-  line-height: 1.2;
+  font-weight: 600; /* Semibold is cleaner than heavy bold */
+  line-height: 1.25;
+  letter-spacing: -0.02em; /* Tighter letter-spacing */
   margin-bottom: var(--space-md);
 }
 
-h1 { font-size: var(--font-size-2xl); }
+h1 { font-size: var(--font-size-2xl); letter-spacing: -0.025em; }
 h2 { font-size: var(--font-size-xl); }
 h3 { font-size: var(--font-size-lg); }
 
@@ -108,54 +110,54 @@ h3 { font-size: var(--font-size-lg); }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem 1.5rem;
+  padding: 0.75rem 1.5rem; /* Sleeker padding */
   border-radius: var(--radius-md);
-  border: none;
+  border: 1px solid transparent;
   font-family: var(--font-family);
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-base); /* Smaller button text for cleaner look */
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.15s ease, background-color 0.15s ease;
-  min-height: 56px; /* Minimum tap target size */
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 48px; /* Tighter baseline height */
   width: 100%;
 }
 
 .btn:active {
-  transform: scale(0.96);
+  transform: scale(0.98);
 }
 
 .btn-primary {
   background-color: var(--accent-primary);
-  color: #fff;
-  box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.25);
+  color: #080a10; /* Dark slate text for high contrast */
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .btn-primary:hover {
-  background-color: #059669; 
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
-  transform: translateY(-2px);
+  background-color: #12cbc4;
+  transform: translateY(-1px);
 }
 
 .btn-secondary {
-  background-color: var(--card-border);
+  background-color: rgba(255, 255, 255, 0.04);
+  border-color: var(--card-border);
   color: var(--text-primary);
 }
 
 .btn-secondary:hover {
-  background-color: #3f3f46;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
   transform: translateY(-1px);
 }
 
 .btn-danger {
   background-color: var(--accent-danger);
   color: #fff;
-  box-shadow: 0 4px 14px 0 rgba(239, 68, 68, 0.25);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .btn-danger:hover {
-  background-color: #dc2626;
-  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.35);
-  transform: translateY(-2px);
+  background-color: #f03e3e;
+  transform: translateY(-1px);
 }
 
 .icon-btn {
@@ -198,16 +200,17 @@ h3 { font-size: var(--font-size-lg); }
   border: 1px solid var(--card-border);
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
-  box-shadow: var(--shadow-sm);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   margin-bottom: var(--space-md);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  border-color: rgba(15, 185, 177, 0.25);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4);
 }
 
 /* Inputs */
@@ -216,17 +219,18 @@ h3 { font-size: var(--font-size-lg); }
   background: var(--input-bg);
   border: 1px solid var(--card-border);
   border-radius: var(--radius-md);
-  padding: 1rem;
+  padding: 0.75rem 1rem; /* Sleeker padding */
   color: var(--text-primary);
   font-size: var(--font-size-base);
   font-family: var(--font-family);
-  min-height: 56px;
+  min-height: 48px; /* Tighter default */
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .input-field:focus {
   border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(15, 185, 177, 0.15);
 }
 
 .input-field::placeholder {
@@ -289,30 +293,43 @@ h3 { font-size: var(--font-size-lg); }
 .brand-header {
   font-family: var(--font-family);
   font-weight: 800;
-  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-size: clamp(2rem, 7vw, 3rem); /* Slightly smaller, more elegant logo sizing */
   text-align: center;
+  margin-top: var(--space-xl);
   margin-bottom: var(--space-xl);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.2rem;
+  gap: 0.6rem;
   letter-spacing: -1px;
 }
 
+.brand-logo-icon {
+  color: var(--accent-primary);
+  animation: floatIcon 4s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
 .brand-deck {
-  background-color: var(--accent-primary);
-  color: #000;
-  padding: 0.2rem 0.8rem;
-  border-radius: var(--radius-md);
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+  color: var(--text-primary);
+  font-weight: 800;
+  padding: 0;
+  background: none;
+  box-shadow: none;
 }
 
 .brand-loop {
-  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  padding-left: 0.2rem;
+  color: var(--accent-primary);
+  font-weight: 400;
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  background-clip: initial;
+  padding-left: 0;
 }
 
 /* ==========================================================================

@@ -21,6 +21,32 @@
 
 .tally-card {
   padding: var(--space-lg) var(--space-md);
+
+  .score-display {
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+  }
+}
+
+.tally-controls {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  
+  .btn-minus {
+    flex: 1;
+    min-height: 44px;
+    font-size: 1.15rem;
+    border-color: var(--card-border);
+  }
+  
+  .btn-plus {
+    flex: 2;
+    min-height: 48px;
+    font-size: 1.35rem;
+  }
 }
 
 @keyframes pulse {

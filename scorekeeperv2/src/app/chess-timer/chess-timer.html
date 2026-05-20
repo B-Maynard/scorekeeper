@@ -41,16 +41,16 @@
 
       <div class="controls-bar flex-center">
         @if (isPaused() && activePlayer() !== null && time1() > 0 && time2() > 0) {
-          <button class="icon-btn text-accent" (click)="resumeGame()" style="font-size: 2rem;">
-            ▶
+          <button class="icon-btn text-accent" (click)="resumeGame()" aria-label="Resume">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="6,4 20,12 6,20"/></svg>
           </button>
         } @else if (!isPaused()) {
-          <button class="icon-btn text-accent" (click)="pauseGame()" style="font-size: 2rem;">
-            ⏸
+          <button class="icon-btn text-accent" (click)="pauseGame()" aria-label="Pause">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
           </button>
         }
-        <button class="icon-btn text-danger" (click)="resetGame()" style="font-size: 2rem; margin-left: var(--space-xl);">
-          ⏹
+        <button class="icon-btn text-danger" (click)="resetGame()" style="margin-left: var(--space-xl);" aria-label="Reset">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><rect x="5" y="5" width="14" height="14" rx="2"/></svg>
         </button>
       </div>
 

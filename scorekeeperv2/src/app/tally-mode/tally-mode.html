@@ -87,12 +87,12 @@
       @for (team of teams(); track team.id) {
         <div class="card text-center tally-card">
           <h3 class="mb-sm">{{ team.name }}</h3>
-          <div class="score-display mb-md" style="font-size: 3rem; font-weight: bold;">
+          <div class="score-display mb-md">
             {{ team.score }}
           </div>
-          <div class="flex-center" style="gap: var(--space-sm);">
-            <button class="btn btn-danger" style="flex: 1; padding: 0.5rem; font-size: 1.5rem;" (click)="addScore(team.id, -1)">-1</button>
-            <button class="btn btn-primary" style="flex: 2; padding: 0.5rem; font-size: 2rem;" (click)="addScore(team.id, 1)">+1</button>
+          <div class="tally-controls">
+            <button class="btn btn-secondary btn-minus" (click)="addScore(team.id, -1)" aria-label="Subtract 1">-1</button>
+            <button class="btn btn-primary btn-plus" (click)="addScore(team.id, 1)" aria-label="Add 1">+1</button>
           </div>
         </div>
       }
